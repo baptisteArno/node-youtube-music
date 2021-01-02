@@ -28,29 +28,37 @@ export const parseVideo = (content: {
       };
     };
   };
-}): MusicVideo => ({
-  youtubeId:
-    content.musicResponsiveListItemRenderer.flexColumns[0]
+}): MusicVideo | null => {
+  if (
+    !content.musicResponsiveListItemRenderer.flexColumns[0]
       .musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint
-      .watchEndpoint.videoId,
-  title:
-    content.musicResponsiveListItemRenderer.flexColumns[0]
-      .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-  artist:
-    content.musicResponsiveListItemRenderer.flexColumns[1]
-      .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-  album:
-    content.musicResponsiveListItemRenderer.flexColumns[1]
-      .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text,
-  thumbnailUrl: content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-    ?.url,
-  duration: {
-    label:
+  ) {
+    return null;
+  }
+  return {
+    youtubeId:
+      content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
+        .navigationEndpoint.watchEndpoint.videoId,
+    title:
+      content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+    artist:
       content.musicResponsiveListItemRenderer.flexColumns[1]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text,
-    totalSeconds: parseDuration(
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+    album:
       content.musicResponsiveListItemRenderer.flexColumns[1]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
-    ),
-  },
-});
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text,
+    thumbnailUrl: content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+      ?.url,
+    duration: {
+      label:
+        content.musicResponsiveListItemRenderer.flexColumns[1]
+          .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text,
+      totalSeconds: parseDuration(
+        content.musicResponsiveListItemRenderer.flexColumns[1]
+          .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+      ),
+    },
+  };
+};

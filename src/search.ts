@@ -38,7 +38,10 @@ export default async function search(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     contents.forEach((content: any) => {
       try {
-        results.push(parseVideo(content));
+        const video = parseVideo(content);
+        if (video) {
+          results.push(video);
+        }
       } catch (e) {
         console.error(e);
       }
