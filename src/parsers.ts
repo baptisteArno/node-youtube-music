@@ -1,10 +1,7 @@
 import { MusicVideo } from './models';
 
 // eslint-disable-next-line import/prefer-default-export
-export const parseDuration = (
-  durationLabel: string | undefined
-): number | undefined => {
-  if (!durationLabel) return undefined;
+export const parseDuration = (durationLabel: string): number => {
   const durationList = durationLabel.split(':');
   return durationList.length === 3
     ? parseInt(durationList[0], 10) * 3600 +
@@ -46,7 +43,7 @@ export const parseVideo = (content: {
     content.musicResponsiveListItemRenderer.flexColumns[1]
       .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text,
   thumbnailUrl: content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-    .url,
+    ?.url,
   duration: {
     label:
       content.musicResponsiveListItemRenderer.flexColumns[1]

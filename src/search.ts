@@ -35,7 +35,8 @@ export default async function search(
     ).contents.sectionListRenderer.contents[0].musicShelfRenderer;
 
     const results: MusicVideo[] = [];
-    contents.forEach((content) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    contents.forEach((content: any) => {
       try {
         results.push(parseVideo(content));
       } catch (e) {

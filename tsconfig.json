@@ -4,7 +4,9 @@
     "allowJs": true,
     "target": "ES6",
     "moduleResolution": "Node",
-    "module": "commonjs"
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true
   },
   "include": ["src/**/*", "examples/**/*", "test/**/*"]
 }

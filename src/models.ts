@@ -6,7 +6,7 @@ export enum AccountType {
 export interface MusicVideo {
   youtubeId: string;
   title: string;
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   artist: string;
   album: string;
   duration: {

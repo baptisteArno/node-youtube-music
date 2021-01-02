@@ -1,9 +1,10 @@
 {
   "name": "node-youtube-music",
   "description": "Unofficial YouTube Music API for Node.js",
-  "version": "0.1.0",
-  "main": "index.js",
-  "repository": "https://github.com/baptisteArno/youtube-unlimited-api.git",
+  "version": "0.1.5",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": "https://github.com/baptisteArno/node-youtube-music",
   "author": "Baptiste Arnaud <contact@baptiste-arnaud.fr>",
   "license": "MIT",
   "devDependencies": {
@@ -24,6 +25,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "got": "^11.8.1"
+    "got": "^11.8.1",
+    "node-youtube-music": "^0.1.3"
   }
 }
