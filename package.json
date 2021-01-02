@@ -1,7 +1,7 @@
 {
   "name": "node-youtube-music",
   "description": "Unofficial YouTube Music API for Node.js",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "https://github.com/baptisteArno/node-youtube-music",
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start:example:search": "yarn build && node dist/examples/search",
+    "start:example:suggestions": "yarn build && node dist/examples/getSuggestions",
     "build": "eslint src/**/* examples/**/* && tsc",
     "test": "yarn build && jest"
   },

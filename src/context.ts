@@ -44,6 +44,5 @@ export default {
         enableSafetyMode: false,
       },
     },
-    params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D',
   }),
 };

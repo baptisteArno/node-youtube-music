@@ -62,3 +62,35 @@ export const parseVideo = (content: {
     },
   };
 };
+
+export const parseSuggestion = (content: {
+  playlistPanelVideoRenderer: {
+    navigationEndpoint: { watchEndpoint: { videoId: string } };
+    title: { runs: { text: string }[] };
+    longBylineText: { runs: { text: string }[] };
+    thumbnail: { thumbnails: { url: string }[] };
+    lengthText: { runs: { text: string }[] };
+  };
+}): MusicVideo | null => {
+  if (
+    !content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint.videoId
+  ) {
+    return null;
+  }
+  return {
+    youtubeId:
+      content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
+        .videoId,
+    title: content.playlistPanelVideoRenderer.title.runs[0].text,
+    artist: content.playlistPanelVideoRenderer.longBylineText.runs[0].text,
+    album: content.playlistPanelVideoRenderer.longBylineText.runs[2].text,
+    thumbnailUrl: content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()
+      ?.url,
+    duration: {
+      label: content.playlistPanelVideoRenderer.lengthText.runs[0].text,
+      totalSeconds: parseDuration(
+        content.playlistPanelVideoRenderer.lengthText.runs[0].text
+      ),
+    },
+  };
+};

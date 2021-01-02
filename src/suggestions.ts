@@ -1,22 +1,26 @@
 import got from 'got';
 import { MusicVideo } from './models';
-import { parseVideo } from './parsers';
+import { parseSuggestion } from './parsers';
 import context from './context';
 
-export default async function search(
-  query: string,
+export default async function getSuggestions(
+  videoId: string,
   options?: {
     lang?: string;
     country?: string;
   }
 ): Promise<MusicVideo[]> {
   const response = await got.post(
-    'https://music.youtube.com/youtubei/v1/search',
+    'https://music.youtube.com/youtubei/v1/next',
     {
       json: {
         ...context.body(options?.lang, options?.country),
-        params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D',
-        query,
+        enablePersistentPlaylistPanel: true,
+        isAudioOnly: true,
+        params: 'mgMDCNgE',
+        playerParams: 'igMDCNgE',
+        tunerSettingValue: 'AUTOMIX_SETTING_NORMAL',
+        videoId,
       },
       searchParams: {
         alt: 'json',
@@ -33,13 +37,14 @@ export default async function search(
   try {
     const { contents } = JSON.parse(
       response.body
-    ).contents.sectionListRenderer.contents[0].musicShelfRenderer;
+    ).contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
 
+    console.log(contents[0]);
     const results: MusicVideo[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     contents.forEach((content: any) => {
       try {
-        const video = parseVideo(content);
+        const video = parseSuggestion(content);
         if (video) {
           results.push(video);
         }

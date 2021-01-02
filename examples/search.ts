@@ -1,4 +1,4 @@
-import ytMusic from 'node-youtube-music';
+import ytMusic from '../src';
 
 const main = () => ytMusic.search('Deadmau5', { lang: 'fr', country: 'FR' });
 
