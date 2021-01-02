@@ -1,6 +1,7 @@
 {
-  "name": "youtube-unlimited-api",
-  "version": "1.0.0",
+  "name": "node-youtube-music",
+  "description": "Unofficial YouTube Music API for Node.js",
+  "version": "0.1.0",
   "main": "index.js",
   "repository": "https://github.com/baptisteArno/youtube-unlimited-api.git",
   "author": "Baptiste Arnaud <contact@baptiste-arnaud.fr>",

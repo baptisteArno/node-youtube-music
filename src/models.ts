@@ -3,15 +3,21 @@ export enum AccountType {
   VERIFIED_ARTIST = 'BADGE_STYLE_TYPE_VERIFIED_ARTIST',
 }
 
-export interface Video {
+export interface MusicVideo {
   youtubeId: string;
   title: string;
   thumbnailUrl: string;
-  viewsLabel: number;
-  channelName: string;
+  artist: string;
+  album: string;
   duration: {
     label: string;
     totalSeconds: number;
   };
-  accountType: AccountType;
+}
+
+export interface Playlist {
+  playlistId: string;
+  title: string;
+  thumbnailUrl: string;
+  videoCount: string;
 }

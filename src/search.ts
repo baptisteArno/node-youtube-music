@@ -1,17 +1,7 @@
 import got from 'got';
-import { Video, AccountType } from './models';
-
-const parseDuration = (
-  durationLabel: string | undefined
-): number | undefined => {
-  if (!durationLabel) return undefined;
-  const durationList = durationLabel.split(':');
-  return durationList.length === 3
-    ? parseInt(durationList[0], 10) * 3600 +
-        parseInt(durationList[1], 10) * 60 +
-        parseInt(durationList[2], 10)
-    : parseInt(durationList[0], 10) * 60 + parseInt(durationList[1], 10);
-};
+import { MusicVideo } from './models';
+import { parseVideo } from './parsers';
+import context from './context';
 
 export default async function search(
   query: string,
@@ -19,59 +9,41 @@ export default async function search(
     lang?: string;
     country?: string;
   }
-): Promise<Video[]> {
-  const response = await got('https://www.youtube.com/results', {
-    searchParams: {
-      q: encodeURIComponent(query),
-      gl: options?.country ?? 'GB',
-      page: 1,
-    },
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-      'Accept-Language': options?.country ?? 'en',
-    },
-  });
-  const results: Video[] = [];
-  const sectionLists = JSON.parse(
-    /ytInitialData = ([^>]+);<\/script>/gm.exec(response.body)[1]
-  ).contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer
-    .contents;
-
-  sectionLists.forEach((sectionList) => {
-    if (sectionList.itemSectionRenderer) {
-      sectionList.itemSectionRenderer.contents.forEach((content) => {
-        try {
-          if (content.videoRenderer) {
-            let accountType: string;
-            try {
-              accountType =
-                content.videoRenderer.ownerBadges[0].metadataBadgeRenderer
-                  .style;
-            } catch {
-              accountType = 'regular';
-            }
-            results.push({
-              youtubeId: content.videoRenderer.videoId,
-              title: content.videoRenderer.title.runs[0].text,
-              thumbnailUrl: content.videoRenderer.thumbnail.thumbnails.pop()
-                .url,
-              viewsLabel: content.videoRenderer.viewCountText?.simpleText,
-              channelName: content.videoRenderer.ownerText?.runs[0].text,
-              duration: {
-                label: content.videoRenderer.lengthText?.simpleText,
-                totalSeconds: parseDuration(
-                  content.videoRenderer.lengthText?.simpleText
-                ),
-              },
-              accountType: accountType as AccountType,
-            });
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      });
+): Promise<MusicVideo[]> {
+  const response = await got.post(
+    'https://music.youtube.com/youtubei/v1/search',
+    {
+      json: {
+        ...context.body(options?.lang, options?.country),
+        query,
+      },
+      searchParams: {
+        alt: 'json',
+        key: 'AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
+      },
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+        'Accept-Language': options?.lang ?? 'en',
+        origin: 'https://music.youtube.com',
+      },
     }
-  });
-  return results;
+  );
+  try {
+    const { contents } = JSON.parse(
+      response.body
+    ).contents.sectionListRenderer.contents[0].musicShelfRenderer;
+
+    const results: MusicVideo[] = [];
+    contents.forEach((content) => {
+      try {
+        results.push(parseVideo(content));
+      } catch (e) {
+        console.error(e);
+      }
+    });
+    return results;
+  } catch {
+    return [];
+  }
 }
