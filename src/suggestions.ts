@@ -39,7 +39,6 @@ export default async function getSuggestions(
       response.body
     ).contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
 
-    console.log(contents[0]);
     const results: MusicVideo[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     contents.forEach((content: any) => {
