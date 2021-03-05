@@ -1,5 +1,5 @@
 declare const _default: {
-    body: (lang?: string | undefined, country?: string | undefined) => {
+    body: (lang?: string | undefined) => {
         context: {
             capabilities: {};
             client: {
@@ -7,7 +7,6 @@ declare const _default: {
                 clientVersion: string;
                 experimentIds: never[];
                 experimentsToken: string;
-                gl: string;
                 hl: string;
                 locationInfo: {
                     locationPermissionAuthorizationStatus: string;

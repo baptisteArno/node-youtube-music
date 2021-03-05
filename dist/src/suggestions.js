@@ -16,7 +16,7 @@ function getSuggestions(videoId, options) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield got_1.default.post('https://music.youtube.com/youtubei/v1/next', {
-            json: Object.assign(Object.assign({}, context_1.default.body(options === null || options === void 0 ? void 0 : options.lang, options === null || options === void 0 ? void 0 : options.country)), { enablePersistentPlaylistPanel: true, isAudioOnly: true, params: 'mgMDCNgE', playerParams: 'igMDCNgE', tunerSettingValue: 'AUTOMIX_SETTING_NORMAL', videoId }),
+            json: Object.assign(Object.assign({}, context_1.default.body(options === null || options === void 0 ? void 0 : options.lang)), { enablePersistentPlaylistPanel: true, isAudioOnly: true, params: 'mgMDCNgE', playerParams: 'igMDCNgE', tunerSettingValue: 'AUTOMIX_SETTING_NORMAL', videoId }),
             searchParams: {
                 alt: 'json',
                 key: 'AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',

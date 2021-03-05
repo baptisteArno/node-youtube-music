@@ -1,6 +1,6 @@
 export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  body: (lang?: string, country?: string) => ({
+  body: (lang?: string) => ({
     context: {
       capabilities: {},
       client: {
@@ -8,7 +8,6 @@ export default {
         clientVersion: '0.1',
         experimentIds: [],
         experimentsToken: '',
-        gl: country ?? 'GB',
         hl: lang ?? 'en',
         locationInfo: {
           locationPermissionAuthorizationStatus:

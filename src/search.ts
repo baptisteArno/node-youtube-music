@@ -14,7 +14,7 @@ export default async function search(
     'https://music.youtube.com/youtubei/v1/search',
     {
       json: {
-        ...context.body(options?.lang, options?.country),
+        ...context.body(options?.lang),
         params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D',
         query,
       },

@@ -11,9 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
 test('Should always return a list of suggestions', () => __awaiter(void 0, void 0, void 0, function* () {
-    const ids = ['RyUK5vbhq9E', 'B2mmDEv0OEk', 'EfgAd6iHApE'];
-    const results = yield Promise.all(ids.map((id) => src_1.default.getSuggestions(id)));
-    results.forEach((result) => {
-        expect(result.length).toBeGreaterThan(1);
-    });
+    const result = yield src_1.default.getSuggestions('ronQgBo0ZCY');
+    expect(result.length).toBeGreaterThan(1);
 }));

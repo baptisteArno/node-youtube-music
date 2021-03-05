@@ -14,7 +14,7 @@ export default async function getSuggestions(
     'https://music.youtube.com/youtubei/v1/next',
     {
       json: {
-        ...context.body(options?.lang, options?.country),
+        ...context.body(options?.lang),
         enablePersistentPlaylistPanel: true,
         isAudioOnly: true,
         params: 'mgMDCNgE',
