@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    body: (lang) => ({
+    body: (lang, country) => ({
         context: {
             capabilities: {},
             client: {
@@ -11,6 +11,7 @@ exports.default = {
                 experimentIds: [],
                 experimentsToken: '',
                 hl: lang !== null && lang !== void 0 ? lang : 'en',
+                gl: country !== null && country !== void 0 ? country : 'GB',
                 locationInfo: {
                     locationPermissionAuthorizationStatus: 'LOCATION_PERMISSION_AUTHORIZATION_STATUS_UNSUPPORTED',
                 },
