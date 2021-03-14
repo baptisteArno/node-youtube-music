@@ -5,29 +5,8 @@ declare const _default: {
             client: {
                 clientName: string;
                 clientVersion: string;
-                experimentIds: never[];
-                experimentsToken: string;
                 hl: string;
                 gl: string;
-                locationInfo: {
-                    locationPermissionAuthorizationStatus: string;
-                };
-                musicAppInfo: {
-                    musicActivityMasterSwitch: string;
-                    musicLocationMasterSwitch: string;
-                    pwaInstallabilityStatus: string;
-                };
-                utcOffsetMinutes: number;
-            };
-            request: {
-                internalExperimentFlags: {
-                    key: string;
-                    value: string;
-                }[];
-                sessionIndex: {};
-            };
-            user: {
-                enableSafetyMode: boolean;
             };
         };
     };

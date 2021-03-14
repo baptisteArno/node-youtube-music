@@ -3,6 +3,44 @@ import { MusicVideo } from './models';
 import { parseSuggestion } from './parsers';
 import context from './context';
 
+export const parseYoutubeMusicSuggestionsBody = (body: {
+  contents: {
+    singleColumnMusicWatchNextResultsRenderer: {
+      tabbedRenderer: {
+        watchNextTabbedResultsRenderer: {
+          tabs: {
+            tabRenderer: {
+              content: {
+                musicQueueRenderer: {
+                  content: { playlistPanelRenderer: { contents: [] } };
+                };
+              };
+            };
+          }[];
+        };
+      };
+    };
+  };
+}): MusicVideo[] => {
+  const {
+    contents,
+  } = body.contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
+
+  const results: MusicVideo[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  contents.forEach((content: any) => {
+    try {
+      const video = parseSuggestion(content);
+      if (video) {
+        results.push(video);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+  return results;
+};
+
 export default async function getSuggestions(
   videoId: string,
   options?: {
@@ -35,23 +73,7 @@ export default async function getSuggestions(
     }
   );
   try {
-    const { contents } = JSON.parse(
-      response.body
-    ).contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
-
-    const results: MusicVideo[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    contents.forEach((content: any) => {
-      try {
-        const video = parseSuggestion(content);
-        if (video) {
-          results.push(video);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    });
-    return results;
+    return parseYoutubeMusicSuggestionsBody(JSON.parse(response.body));
   } catch {
     return [];
   }

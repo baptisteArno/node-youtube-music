@@ -9,18 +9,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseYoutubeMusicSearchBody = void 0;
 const got_1 = require("got");
 const parsers_1 = require("./parsers");
 const context_1 = require("./context");
+const parseYoutubeMusicSearchBody = (body) => {
+    const { contents, } = body.contents.sectionListRenderer.contents[0].musicShelfRenderer;
+    const results = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    contents.forEach((content) => {
+        try {
+            const video = parsers_1.parseVideo(content);
+            if (video) {
+                results.push(video);
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
+    return results;
+};
+exports.parseYoutubeMusicSearchBody = parseYoutubeMusicSearchBody;
 function search(query, options) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const response = yield got_1.default.post('https://music.youtube.com/youtubei/v1/search', {
+        const response = yield got_1.default.post('https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30', {
             json: Object.assign(Object.assign({}, context_1.default.body(options === null || options === void 0 ? void 0 : options.lang, options === null || options === void 0 ? void 0 : options.country)), { params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D', query }),
-            searchParams: {
-                alt: 'json',
-                key: 'AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
-            },
             headers: {
                 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
                 'Accept-Language': (_a = options === null || options === void 0 ? void 0 : options.lang) !== null && _a !== void 0 ? _a : 'en',
@@ -28,21 +43,7 @@ function search(query, options) {
             },
         });
         try {
-            const { contents } = JSON.parse(response.body).contents.sectionListRenderer.contents[0].musicShelfRenderer;
-            const results = [];
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            contents.forEach((content) => {
-                try {
-                    const video = parsers_1.parseVideo(content);
-                    if (video) {
-                        results.push(video);
-                    }
-                }
-                catch (e) {
-                    console.error(e);
-                }
-            });
-            return results;
+            return exports.parseYoutubeMusicSearchBody(JSON.parse(response.body));
         }
         catch (_b) {
             return [];

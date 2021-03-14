@@ -9,9 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseYoutubeMusicSuggestionsBody = void 0;
 const got_1 = require("got");
 const parsers_1 = require("./parsers");
 const context_1 = require("./context");
+const parseYoutubeMusicSuggestionsBody = (body) => {
+    const { contents, } = body.contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
+    const results = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    contents.forEach((content) => {
+        try {
+            const video = parsers_1.parseSuggestion(content);
+            if (video) {
+                results.push(video);
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
+    return results;
+};
+exports.parseYoutubeMusicSuggestionsBody = parseYoutubeMusicSuggestionsBody;
 function getSuggestions(videoId, options) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -28,21 +47,7 @@ function getSuggestions(videoId, options) {
             },
         });
         try {
-            const { contents } = JSON.parse(response.body).contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
-            const results = [];
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            contents.forEach((content) => {
-                try {
-                    const video = parsers_1.parseSuggestion(content);
-                    if (video) {
-                        results.push(video);
-                    }
-                }
-                catch (e) {
-                    console.error(e);
-                }
-            });
-            return results;
+            return exports.parseYoutubeMusicSuggestionsBody(JSON.parse(response.body));
         }
         catch (_b) {
             return [];
