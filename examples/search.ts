@@ -1,6 +1,5 @@
 import ytMusic from '../src';
 
-const main = () =>
-  ytMusic.search('sitting waiting wishing', { lang: 'fr-FR', country: 'FR' });
+const main = () => ytMusic.search('DJOKO', { lang: 'en-GB', country: 'FR' });
 
 main().then((results) => console.log(results));

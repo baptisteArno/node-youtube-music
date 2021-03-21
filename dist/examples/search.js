@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
-const main = () => src_1.default.search('sitting waiting wishing', { lang: 'fr-FR', country: 'FR' });
+const main = () => src_1.default.search('DJOKO', { lang: 'en-GB', country: 'FR' });
 main().then((results) => console.log(results));
