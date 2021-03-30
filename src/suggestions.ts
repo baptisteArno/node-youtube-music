@@ -3,7 +3,7 @@ import { MusicVideo } from './models';
 import { parseSuggestion } from './parsers';
 import context from './context';
 
-export const parseYoutubeMusicSuggestionsBody = (body: {
+export const parseSuggestionsBody = (body: {
   contents: {
     singleColumnMusicWatchNextResultsRenderer: {
       tabbedRenderer: {
@@ -73,7 +73,7 @@ export default async function getSuggestions(
     }
   );
   try {
-    return parseYoutubeMusicSuggestionsBody(JSON.parse(response.body));
+    return parseSuggestionsBody(JSON.parse(response.body));
   } catch {
     return [];
   }

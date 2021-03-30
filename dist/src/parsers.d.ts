@@ -1,6 +1,6 @@
-import { MusicVideo } from './models';
+import { MusicVideo, PlaylistPreview } from './models';
 export declare const parseDuration: (durationLabel: string) => number;
-export declare const parseVideo: (content: {
+export declare const parseSongSearchResult: (content: {
     musicResponsiveListItemRenderer: {
         flexColumns: {
             musicResponsiveListItemFlexColumnRenderer: {
@@ -54,5 +54,68 @@ export declare const parseSuggestion: (content: {
                 text: string;
             }[];
         };
+    };
+}) => MusicVideo | null;
+export declare const parsePlaylistsSearchResults: (content: {
+    musicResponsiveListItemRenderer: {
+        flexColumns: {
+            musicResponsiveListItemFlexColumnRenderer: {
+                text: {
+                    runs: {
+                        text: string;
+                    }[];
+                };
+            };
+        }[];
+        thumbnail: {
+            musicThumbnailRenderer: {
+                thumbnail: {
+                    thumbnails: {
+                        url: string | undefined;
+                    }[];
+                };
+            };
+        };
+        navigationEndpoint: {
+            browseEndpoint: {
+                browseId: string;
+            };
+        };
+    };
+}) => PlaylistPreview | null;
+export declare const parseMusicFromPlaylist: (content: {
+    musicResponsiveListItemRenderer: {
+        thumbnail: {
+            musicThumbnailRenderer: {
+                thumbnail: {
+                    thumbnails: {
+                        url: string;
+                    }[];
+                };
+            };
+        };
+        fixedColumns: {
+            musicResponsiveListItemFixedColumnRenderer: {
+                text: {
+                    runs: {
+                        text: string;
+                    }[];
+                };
+            };
+        }[];
+        flexColumns: {
+            musicResponsiveListItemFlexColumnRenderer: {
+                text: {
+                    runs: {
+                        navigationEndpoint: {
+                            watchEndpoint: {
+                                videoId: string;
+                            };
+                        };
+                        text: string;
+                    }[];
+                };
+            };
+        }[];
     };
 }) => MusicVideo | null;

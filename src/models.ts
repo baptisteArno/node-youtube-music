@@ -15,9 +15,9 @@ export interface MusicVideo {
   };
 }
 
-export interface Playlist {
+export interface PlaylistPreview {
   playlistId: string;
   title: string;
-  thumbnailUrl: string;
-  videoCount: string;
+  thumbnailUrl?: string;
+  totalSongs: number;
 }

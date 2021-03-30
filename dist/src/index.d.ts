@@ -1,7 +1,9 @@
-import search from './search';
+import searchMusics from './searchMusics';
+import searchPlaylists from './searchPlaylists';
 import getSuggestions from './suggestions';
+import listMusicsFromPlaylist from './listMusicsFromPlaylist';
 declare const _default: {
-    parseYoutubeMusicSearchBody: (body: {
+    parseMusicsSearchBody: (body: {
         contents: {
             sectionListRenderer: {
                 contents: {
@@ -12,7 +14,7 @@ declare const _default: {
             };
         };
     }) => import("./models").MusicVideo[];
-    parseYoutubeMusicSuggestionsBody: (body: {
+    parseSuggestionsBody: (body: {
         contents: {
             singleColumnMusicWatchNextResultsRenderer: {
                 tabbedRenderer: {
@@ -35,7 +37,39 @@ declare const _default: {
             };
         };
     }) => import("./models").MusicVideo[];
-    search: typeof search;
+    parsePlaylistsSearchBody: (body: {
+        contents: {
+            sectionListRenderer: {
+                contents: {
+                    musicShelfRenderer: {
+                        contents: [];
+                    };
+                }[];
+            };
+        };
+    }) => import("./models").PlaylistPreview[];
+    parsePlaylist: (body: {
+        contents: {
+            singleColumnBrowseResultsRenderer: {
+                tabs: {
+                    tabRenderer: {
+                        content: {
+                            sectionListRenderer: {
+                                contents: {
+                                    musicPlaylistShelfRenderer: {
+                                        contents: [];
+                                    };
+                                }[];
+                            };
+                        };
+                    };
+                }[];
+            };
+        };
+    }) => import("./models").MusicVideo[];
+    searchMusics: typeof searchMusics;
+    searchPlaylists: typeof searchPlaylists;
     getSuggestions: typeof getSuggestions;
+    listMusicsFromPlaylist: typeof listMusicsFromPlaylist;
 };
 export default _default;

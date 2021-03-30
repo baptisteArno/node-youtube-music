@@ -1,11 +1,17 @@
-import search, { parseYoutubeMusicSearchBody } from './search';
-import getSuggestions, {
-  parseYoutubeMusicSuggestionsBody,
-} from './suggestions';
+import searchMusics, { parseMusicsSearchBody } from './searchMusics';
+import searchPlaylists, { parsePlaylistsSearchBody } from './searchPlaylists';
+import getSuggestions, { parseSuggestionsBody } from './suggestions';
+import listMusicsFromPlaylist, {
+  parsePlaylist,
+} from './listMusicsFromPlaylist';
 
 export default {
-  parseYoutubeMusicSearchBody,
-  parseYoutubeMusicSuggestionsBody,
-  search,
+  parseMusicsSearchBody,
+  parseSuggestionsBody,
+  parsePlaylistsSearchBody,
+  parsePlaylist,
+  searchMusics,
+  searchPlaylists,
   getSuggestions,
+  listMusicsFromPlaylist,
 };

@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseYoutubeMusicSuggestionsBody = void 0;
+exports.parseSuggestionsBody = void 0;
 const got_1 = require("got");
 const parsers_1 = require("./parsers");
 const context_1 = require("./context");
-const parseYoutubeMusicSuggestionsBody = (body) => {
+const parseSuggestionsBody = (body) => {
     const { contents, } = body.contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content.musicQueueRenderer.content.playlistPanelRenderer;
     const results = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,7 +30,7 @@ const parseYoutubeMusicSuggestionsBody = (body) => {
     });
     return results;
 };
-exports.parseYoutubeMusicSuggestionsBody = parseYoutubeMusicSuggestionsBody;
+exports.parseSuggestionsBody = parseSuggestionsBody;
 function getSuggestions(videoId, options) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -47,7 +47,7 @@ function getSuggestions(videoId, options) {
             },
         });
         try {
-            return exports.parseYoutubeMusicSuggestionsBody(JSON.parse(response.body));
+            return exports.parseSuggestionsBody(JSON.parse(response.body));
         }
         catch (_b) {
             return [];

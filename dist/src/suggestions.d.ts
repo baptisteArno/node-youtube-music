@@ -1,5 +1,5 @@
 import { MusicVideo } from './models';
-export declare const parseYoutubeMusicSuggestionsBody: (body: {
+export declare const parseSuggestionsBody: (body: {
     contents: {
         singleColumnMusicWatchNextResultsRenderer: {
             tabbedRenderer: {

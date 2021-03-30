@@ -1,5 +1,5 @@
 import { MusicVideo } from './models';
-export declare const parseYoutubeMusicSearchBody: (body: {
+export declare const parseMusicsSearchBody: (body: {
     contents: {
         sectionListRenderer: {
             contents: {
@@ -10,8 +10,7 @@ export declare const parseYoutubeMusicSearchBody: (body: {
         };
     };
 }) => MusicVideo[];
-export default function search(query: string, options?: {
+export default function searchMusics(query: string, options?: {
     lang?: string;
     country?: string;
-    filter?: 'songs' | 'playlists';
 }): Promise<MusicVideo[]>;

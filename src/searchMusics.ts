@@ -1,9 +1,9 @@
 import got from 'got';
 import { MusicVideo } from './models';
-import { parseVideo } from './parsers';
+import { parseSongSearchResult } from './parsers';
 import context from './context';
 
-export const parseYoutubeMusicSearchBody = (body: {
+export const parseMusicsSearchBody = (body: {
   contents: {
     sectionListRenderer: {
       contents: { musicShelfRenderer: { contents: [] } }[];
@@ -18,9 +18,9 @@ export const parseYoutubeMusicSearchBody = (body: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const video = parseVideo(content);
-      if (video) {
-        results.push(video);
+      const song = parseSongSearchResult(content);
+      if (song) {
+        results.push(song);
       }
     } catch (e) {
       console.error(e);
@@ -29,7 +29,7 @@ export const parseYoutubeMusicSearchBody = (body: {
   return results;
 };
 
-export default async function search(
+export default async function searchMusics(
   query: string,
   options?: {
     lang?: string;
@@ -53,7 +53,7 @@ export default async function search(
     }
   );
   try {
-    return parseYoutubeMusicSearchBody(JSON.parse(response.body));
+    return parseMusicsSearchBody(JSON.parse(response.body));
   } catch {
     return [];
   }

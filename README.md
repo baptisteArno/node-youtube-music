@@ -42,10 +42,11 @@ const suggestions = ytMusic.getSuggestions(musics[0].youtubeId);
 ## Looking for contributors 👇
 
 - [ ] Search
-  - [x] Songs
+  - [x] Musics
   - [ ] Artists
-  - [ ] Playlists
+  - [x] Playlists
   - [ ] Albums
-- [x] Suggestions from song ID
+- [x] List musics from playlist
+- [x] Suggestions from music ID
 - [ ] Playlist management (create, push, remove)
 - [ ] Library management

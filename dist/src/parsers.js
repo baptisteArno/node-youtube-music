@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseSuggestion = exports.parseVideo = exports.parseDuration = void 0;
+exports.parseMusicFromPlaylist = exports.parsePlaylistsSearchResults = exports.parseSuggestion = exports.parseSongSearchResult = exports.parseDuration = void 0;
 // eslint-disable-next-line import/prefer-default-export
 const parseDuration = (durationLabel) => {
     const durationList = durationLabel.split(':');
@@ -11,7 +11,7 @@ const parseDuration = (durationLabel) => {
         : parseInt(durationList[0], 10) * 60 + parseInt(durationList[1], 10);
 };
 exports.parseDuration = parseDuration;
-const parseVideo = (content) => {
+const parseSongSearchResult = (content) => {
     var _a;
     if (!content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint) {
@@ -36,7 +36,7 @@ const parseVideo = (content) => {
         },
     };
 };
-exports.parseVideo = parseVideo;
+exports.parseSongSearchResult = parseSongSearchResult;
 const parseSuggestion = (content) => {
     var _a;
     if (!content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint.videoId) {
@@ -56,3 +56,46 @@ const parseSuggestion = (content) => {
     };
 };
 exports.parseSuggestion = parseSuggestion;
+const parsePlaylistsSearchResults = (content) => {
+    var _a;
+    if (!content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
+        .browseId) {
+        return null;
+    }
+    return {
+        title: content.musicResponsiveListItemRenderer.flexColumns[0]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+        totalSongs: parseInt(content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text.split(' ')[0], 10),
+        thumbnailUrl: (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
+        playlistId: content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
+            .browseId,
+    };
+};
+exports.parsePlaylistsSearchResults = parsePlaylistsSearchResults;
+const parseMusicFromPlaylist = (content) => {
+    var _a;
+    if (!content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint
+        .watchEndpoint.videoId) {
+        return null;
+    }
+    return {
+        youtubeId: content.musicResponsiveListItemRenderer.flexColumns[0]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
+            .navigationEndpoint.watchEndpoint.videoId,
+        title: content.musicResponsiveListItemRenderer.flexColumns[0]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+        artist: content.musicResponsiveListItemRenderer.flexColumns[1]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+        album: content.musicResponsiveListItemRenderer.flexColumns[2]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
+        thumbnailUrl: (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
+        duration: {
+            label: content.musicResponsiveListItemRenderer.fixedColumns[0]
+                .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text,
+            totalSeconds: exports.parseDuration(content.musicResponsiveListItemRenderer.fixedColumns[0]
+                .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text),
+        },
+    };
+};
+exports.parseMusicFromPlaylist = parseMusicFromPlaylist;

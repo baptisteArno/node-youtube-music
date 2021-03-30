@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const music = (yield src_1.default.search('Liem if only', { lang: 'fr', country: 'FR' })).shift();
+    const music = (yield src_1.default.searchMusics('Liem if only', { lang: 'fr', country: 'FR' })).shift();
     if (!music) {
         throw Error();
     }
