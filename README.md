@@ -34,7 +34,7 @@ yarn add node-youtube-music
 ```ts
 import ytMusic from 'node-youtube-music';
 
-const musics = await ytMusic.search('Never gonna give you up');
+const musics = await ytMusic.searchMusics('Never gonna give you up');
 
 const suggestions = ytMusic.getSuggestions(musics[0].youtubeId);
 ```
