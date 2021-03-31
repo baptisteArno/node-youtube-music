@@ -13,13 +13,13 @@ exports.parsePlaylistsSearchBody = void 0;
 const got_1 = require("got");
 const context_1 = require("./context");
 const parsers_1 = require("./parsers");
-const parsePlaylistsSearchBody = (body) => {
+const parsePlaylistsSearchBody = (body, onlyOfficialPlaylists) => {
     const { contents, } = body.contents.sectionListRenderer.contents[0].musicShelfRenderer;
     const results = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     contents.forEach((content) => {
         try {
-            const playlist = parsers_1.parsePlaylistsSearchResults(content);
+            const playlist = parsers_1.parsePlaylistsSearchResults(content, onlyOfficialPlaylists);
             if (playlist) {
                 results.push(playlist);
             }
@@ -32,7 +32,7 @@ const parsePlaylistsSearchBody = (body) => {
 };
 exports.parsePlaylistsSearchBody = parsePlaylistsSearchBody;
 function searchPlaylists(query, options) {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield got_1.default.post('https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30', {
             json: Object.assign(Object.assign({}, context_1.default.body(options === null || options === void 0 ? void 0 : options.lang, options === null || options === void 0 ? void 0 : options.country)), { params: 'EgWKAQIoAWoKEAoQAxAEEAUQCQ%3D%3D', query }),
@@ -43,7 +43,7 @@ function searchPlaylists(query, options) {
             },
         });
         try {
-            return exports.parsePlaylistsSearchBody(JSON.parse(response.body));
+            return exports.parsePlaylistsSearchBody(JSON.parse(response.body), (_b = options === null || options === void 0 ? void 0 : options.onlyOfficialPlaylists) !== null && _b !== void 0 ? _b : false);
         }
         catch (e) {
             console.error(e);

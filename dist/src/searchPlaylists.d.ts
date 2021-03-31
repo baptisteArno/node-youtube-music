@@ -9,8 +9,9 @@ export declare const parsePlaylistsSearchBody: (body: {
             }[];
         };
     };
-}) => PlaylistPreview[];
+}, onlyOfficialPlaylists: boolean) => PlaylistPreview[];
 export default function searchPlaylists(query: string, options?: {
     lang?: string;
     country?: string;
+    onlyOfficialPlaylists?: boolean;
 }): Promise<PlaylistPreview[]>;

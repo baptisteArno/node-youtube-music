@@ -47,7 +47,7 @@ declare const _default: {
                 }[];
             };
         };
-    }) => import("./models").PlaylistPreview[];
+    }, onlyOfficialPlaylists: boolean) => import("./models").PlaylistPreview[];
     parsePlaylist: (body: {
         contents: {
             singleColumnBrowseResultsRenderer: {

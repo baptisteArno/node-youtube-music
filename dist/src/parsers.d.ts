@@ -82,7 +82,7 @@ export declare const parsePlaylistsSearchResults: (content: {
             };
         };
     };
-}) => PlaylistPreview | null;
+}, onlyOfficialPlaylists: boolean) => PlaylistPreview | null;
 export declare const parseMusicFromPlaylist: (content: {
     musicResponsiveListItemRenderer: {
         thumbnail: {

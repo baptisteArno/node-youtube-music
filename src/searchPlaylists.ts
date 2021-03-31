@@ -3,13 +3,16 @@ import context from './context';
 import { PlaylistPreview } from './models';
 import { parsePlaylistsSearchResults } from './parsers';
 
-export const parsePlaylistsSearchBody = (body: {
-  contents: {
-    sectionListRenderer: {
-      contents: { musicShelfRenderer: { contents: [] } }[];
+export const parsePlaylistsSearchBody = (
+  body: {
+    contents: {
+      sectionListRenderer: {
+        contents: { musicShelfRenderer: { contents: [] } }[];
+      };
     };
-  };
-}): PlaylistPreview[] => {
+  },
+  onlyOfficialPlaylists: boolean
+): PlaylistPreview[] => {
   const {
     contents,
   } = body.contents.sectionListRenderer.contents[0].musicShelfRenderer;
@@ -18,7 +21,10 @@ export const parsePlaylistsSearchBody = (body: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const playlist = parsePlaylistsSearchResults(content);
+      const playlist = parsePlaylistsSearchResults(
+        content,
+        onlyOfficialPlaylists
+      );
       if (playlist) {
         results.push(playlist);
       }
@@ -34,6 +40,7 @@ export default async function searchPlaylists(
   options?: {
     lang?: string;
     country?: string;
+    onlyOfficialPlaylists?: boolean;
   }
 ): Promise<PlaylistPreview[]> {
   const response = await got.post(
@@ -53,7 +60,10 @@ export default async function searchPlaylists(
     }
   );
   try {
-    return parsePlaylistsSearchBody(JSON.parse(response.body));
+    return parsePlaylistsSearchBody(
+      JSON.parse(response.body),
+      options?.onlyOfficialPlaylists ?? false
+    );
   } catch (e) {
     console.error(e);
     return [];

@@ -56,10 +56,16 @@ const parseSuggestion = (content) => {
     };
 };
 exports.parseSuggestion = parseSuggestion;
-const parsePlaylistsSearchResults = (content) => {
+const parsePlaylistsSearchResults = (content, onlyOfficialPlaylists) => {
     var _a;
     if (!content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
         .browseId) {
+        return null;
+    }
+    if (onlyOfficialPlaylists &&
+        content.musicResponsiveListItemRenderer.flexColumns[1]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text !==
+            'YouTube Music') {
         return null;
     }
     return {

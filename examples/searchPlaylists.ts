@@ -1,6 +1,9 @@
 import ytMusic from '../src';
 
 const main = () =>
-  ytMusic.searchPlaylists('Jazz', { lang: 'fr', country: 'FR' });
+  ytMusic.searchPlaylists('Dubstep', {
+    lang: 'en',
+    onlyOfficialPlaylists: true,
+  });
 
 main().then((results) => console.log(results));

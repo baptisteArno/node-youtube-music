@@ -95,24 +95,35 @@ export const parseSuggestion = (content: {
   };
 };
 
-export const parsePlaylistsSearchResults = (content: {
-  musicResponsiveListItemRenderer: {
-    flexColumns: {
-      musicResponsiveListItemFlexColumnRenderer: {
-        text: { runs: { text: string }[] };
+export const parsePlaylistsSearchResults = (
+  content: {
+    musicResponsiveListItemRenderer: {
+      flexColumns: {
+        musicResponsiveListItemFlexColumnRenderer: {
+          text: { runs: { text: string }[] };
+        };
+      }[];
+      thumbnail: {
+        musicThumbnailRenderer: {
+          thumbnail: { thumbnails: { url: string | undefined }[] };
+        };
       };
-    }[];
-    thumbnail: {
-      musicThumbnailRenderer: {
-        thumbnail: { thumbnails: { url: string | undefined }[] };
-      };
+      navigationEndpoint: { browseEndpoint: { browseId: string } };
     };
-    navigationEndpoint: { browseEndpoint: { browseId: string } };
-  };
-}): PlaylistPreview | null => {
+  },
+  onlyOfficialPlaylists: boolean
+): PlaylistPreview | null => {
   if (
     !content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
       .browseId
+  ) {
+    return null;
+  }
+  if (
+    onlyOfficialPlaylists &&
+    content.musicResponsiveListItemRenderer.flexColumns[1]
+      .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text !==
+      'YouTube Music'
   ) {
     return null;
   }
