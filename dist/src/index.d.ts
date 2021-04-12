@@ -66,7 +66,7 @@ declare const _default: {
                 }[];
             };
         };
-    }) => import("./models").MusicVideo[];
+    }) => Promise<import("./models").MusicVideo[]>;
     searchMusics: typeof searchMusics;
     searchPlaylists: typeof searchPlaylists;
     getSuggestions: typeof getSuggestions;

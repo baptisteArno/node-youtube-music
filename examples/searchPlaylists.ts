@@ -1,9 +1,6 @@
 import ytMusic from '../src';
 
 const main = () =>
-  ytMusic.searchPlaylists('Dubstep', {
-    lang: 'en',
-    onlyOfficialPlaylists: true,
-  });
+  ytMusic.searchPlaylists('Daft Punk', { onlyOfficialPlaylists: true });
 
 main().then((results) => console.log(results));

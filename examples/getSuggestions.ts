@@ -7,7 +7,11 @@ const main = async () => {
   if (!music) {
     throw Error();
   }
-  return ytMusic.getSuggestions(music.youtubeId, { lang: 'fr', country: 'FR' });
+  if (!music.youtubeId) return;
+  ytMusic.getSuggestions(music.youtubeId, {
+    lang: 'fr',
+    country: 'FR',
+  });
 };
 
 main().then((results) => console.log(results));

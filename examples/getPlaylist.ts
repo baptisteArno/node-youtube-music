@@ -2,7 +2,7 @@ import ytMusic from '../src';
 
 const main = () =>
   ytMusic.listMusicsFromPlaylist(
-    'VLRDCLAK5uy_kL57PLcOmExjhzqGfGhvA82ZWe4fPH2c4',
+    'VLRDCLAK5uy_n20FRYQXNt1p1wS55Nj2r14IouO5weaYU',
     {
       lang: 'fr',
       country: 'FR',

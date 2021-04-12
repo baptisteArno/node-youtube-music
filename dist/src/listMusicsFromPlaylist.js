@@ -13,7 +13,7 @@ exports.parsePlaylist = void 0;
 const got_1 = require("got");
 const context_1 = require("./context");
 const parsers_1 = require("./parsers");
-const parsePlaylist = (body) => {
+const parsePlaylist = (body) => __awaiter(void 0, void 0, void 0, function* () {
     const { contents, } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
     const results = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +29,7 @@ const parsePlaylist = (body) => {
         }
     });
     return results;
-};
+});
 exports.parsePlaylist = parsePlaylist;
 function listMusicsFromPlaylist(playlistId, options) {
     var _a;

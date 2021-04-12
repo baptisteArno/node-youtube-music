@@ -4,20 +4,20 @@ export enum AccountType {
 }
 
 export interface MusicVideo {
-  youtubeId: string;
-  title: string;
+  youtubeId?: string;
+  title?: string;
   thumbnailUrl?: string;
-  artist: string;
-  album: string;
-  duration: {
+  artist?: string;
+  album?: string;
+  duration?: {
     label: string;
     totalSeconds: number;
   };
 }
 
 export interface PlaylistPreview {
-  playlistId: string;
-  title: string;
+  playlistId?: string;
+  title?: string;
   thumbnailUrl?: string;
-  totalSongs: number;
+  totalSongs?: number;
 }

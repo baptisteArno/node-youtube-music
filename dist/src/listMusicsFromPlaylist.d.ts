@@ -17,7 +17,7 @@ export declare const parsePlaylist: (body: {
             }[];
         };
     };
-}) => MusicVideo[];
+}) => Promise<MusicVideo[]>;
 export default function listMusicsFromPlaylist(playlistId: string, options?: {
     lang?: string;
     country?: string;

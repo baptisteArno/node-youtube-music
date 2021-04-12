@@ -13,54 +13,141 @@ const parseDuration = (durationLabel) => {
 exports.parseDuration = parseDuration;
 const parseSongSearchResult = (content) => {
     var _a;
-    if (!content.musicResponsiveListItemRenderer.flexColumns[0]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint) {
-        return null;
+    let youtubeId;
+    try {
+        youtubeId =
+            content.musicResponsiveListItemRenderer.flexColumns[0]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
+                .navigationEndpoint.watchEndpoint.videoId;
     }
-    return {
-        youtubeId: content.musicResponsiveListItemRenderer.flexColumns[0]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
-            .navigationEndpoint.watchEndpoint.videoId,
-        title: content.musicResponsiveListItemRenderer.flexColumns[0]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        artist: content.musicResponsiveListItemRenderer.flexColumns[1]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        album: content.musicResponsiveListItemRenderer.flexColumns[1]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text,
-        thumbnailUrl: (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
-        duration: {
+    catch (err) {
+        console.log("Couldn't parse youtube id", err);
+    }
+    let title;
+    try {
+        title =
+            content.musicResponsiveListItemRenderer.flexColumns[0]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse title", err);
+    }
+    let artist;
+    try {
+        artist =
+            content.musicResponsiveListItemRenderer.flexColumns[1]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse artist", err);
+    }
+    let album;
+    try {
+        album =
+            content.musicResponsiveListItemRenderer.flexColumns[1]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse album", err);
+    }
+    let thumbnailUrl;
+    try {
+        thumbnailUrl = (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url;
+    }
+    catch (err) {
+        console.log("Couldn't parse thumbnailUrl", err);
+    }
+    let duration;
+    try {
+        duration = {
             label: content.musicResponsiveListItemRenderer.flexColumns[1]
                 .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text,
             totalSeconds: exports.parseDuration(content.musicResponsiveListItemRenderer.flexColumns[1]
                 .musicResponsiveListItemFlexColumnRenderer.text.runs[4].text),
-        },
+        };
+    }
+    catch (err) {
+        console.log("Couldn't parse duration", err);
+    }
+    return {
+        youtubeId,
+        title,
+        artist,
+        album,
+        thumbnailUrl,
+        duration,
     };
 };
 exports.parseSongSearchResult = parseSongSearchResult;
 const parseSuggestion = (content) => {
     var _a;
-    if (!content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint.videoId) {
-        return null;
+    let youtubeId;
+    try {
+        youtubeId =
+            content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
+                .videoId;
     }
-    return {
-        youtubeId: content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
-            .videoId,
-        title: content.playlistPanelVideoRenderer.title.runs[0].text,
-        artist: content.playlistPanelVideoRenderer.longBylineText.runs[0].text,
-        album: content.playlistPanelVideoRenderer.longBylineText.runs[2].text,
-        thumbnailUrl: (_a = content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
-        duration: {
+    catch (err) {
+        console.log("Couldn't parse youtube id", err);
+    }
+    let title;
+    try {
+        title = content.playlistPanelVideoRenderer.title.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse title", err);
+    }
+    let artist;
+    try {
+        artist = content.playlistPanelVideoRenderer.longBylineText.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse artist", err);
+    }
+    let album;
+    try {
+        album = content.playlistPanelVideoRenderer.longBylineText.runs[2].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse album", err);
+    }
+    let thumbnailUrl;
+    try {
+        thumbnailUrl = (_a = content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url;
+    }
+    catch (err) {
+        console.log("Couldn't parse thumbnailUrl", err);
+    }
+    let duration;
+    try {
+        duration = {
             label: content.playlistPanelVideoRenderer.lengthText.runs[0].text,
             totalSeconds: exports.parseDuration(content.playlistPanelVideoRenderer.lengthText.runs[0].text),
-        },
+        };
+    }
+    catch (err) {
+        console.log("Couldn't parse duration", err);
+    }
+    return {
+        youtubeId,
+        title,
+        artist,
+        album,
+        thumbnailUrl,
+        duration,
     };
 };
 exports.parseSuggestion = parseSuggestion;
 const parsePlaylistsSearchResults = (content, onlyOfficialPlaylists) => {
     var _a;
-    if (!content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
-        .browseId) {
-        return null;
+    let playlistId;
+    try {
+        playlistId =
+            content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
+                .browseId;
+    }
+    catch (err) {
+        console.log("Couldn't parse youtube id", err);
     }
     if (onlyOfficialPlaylists &&
         content.musicResponsiveListItemRenderer.flexColumns[1]
@@ -68,40 +155,102 @@ const parsePlaylistsSearchResults = (content, onlyOfficialPlaylists) => {
             'YouTube Music') {
         return null;
     }
+    let title;
+    try {
+        title =
+            content.musicResponsiveListItemRenderer.flexColumns[0]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse title", err);
+    }
+    let totalSongs;
+    try {
+        totalSongs = parseInt(content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text.split(' ')[0], 10);
+    }
+    catch (err) {
+        console.log("Couldn't parse artist", err);
+    }
+    let thumbnailUrl;
+    try {
+        thumbnailUrl = (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url;
+    }
+    catch (err) {
+        console.log("Couldn't parse thumbnailUrl", err);
+    }
     return {
-        title: content.musicResponsiveListItemRenderer.flexColumns[0]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        totalSongs: parseInt(content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text.split(' ')[0], 10),
-        thumbnailUrl: (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
-        playlistId: content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
-            .browseId,
+        playlistId,
+        title,
+        totalSongs,
+        thumbnailUrl,
     };
 };
 exports.parsePlaylistsSearchResults = parsePlaylistsSearchResults;
 const parseMusicFromPlaylist = (content) => {
     var _a;
-    if (!content.musicResponsiveListItemRenderer.flexColumns[0]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint
-        .watchEndpoint.videoId) {
-        return null;
+    let youtubeId;
+    try {
+        youtubeId =
+            content.musicResponsiveListItemRenderer.flexColumns[0]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
+                .navigationEndpoint.watchEndpoint.videoId;
     }
-    return {
-        youtubeId: content.musicResponsiveListItemRenderer.flexColumns[0]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
-            .navigationEndpoint.watchEndpoint.videoId,
-        title: content.musicResponsiveListItemRenderer.flexColumns[0]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        artist: content.musicResponsiveListItemRenderer.flexColumns[1]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        album: content.musicResponsiveListItemRenderer.flexColumns[2]
-            .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-        thumbnailUrl: (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url,
-        duration: {
+    catch (err) {
+        console.log("Couldn't parse youtube id", err);
+    }
+    let title;
+    try {
+        title =
+            content.musicResponsiveListItemRenderer.flexColumns[0]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse title", err);
+    }
+    let artist;
+    try {
+        artist =
+            content.musicResponsiveListItemRenderer.flexColumns[1]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse artist", err);
+    }
+    let album;
+    try {
+        album =
+            content.musicResponsiveListItemRenderer.flexColumns[2]
+                .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+    }
+    catch (err) {
+        console.log("Couldn't parse album", err);
+    }
+    let thumbnailUrl;
+    try {
+        thumbnailUrl = (_a = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()) === null || _a === void 0 ? void 0 : _a.url;
+    }
+    catch (err) {
+        console.log("Couldn't parse thumbnailUrl", err);
+    }
+    let duration;
+    try {
+        duration = {
             label: content.musicResponsiveListItemRenderer.fixedColumns[0]
                 .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text,
             totalSeconds: exports.parseDuration(content.musicResponsiveListItemRenderer.fixedColumns[0]
                 .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text),
-        },
+        };
+    }
+    catch (err) {
+        console.log("Couldn't parse duration", err);
+    }
+    return {
+        youtubeId,
+        title,
+        artist,
+        album,
+        thumbnailUrl,
+        duration,
     };
 };
 exports.parseMusicFromPlaylist = parseMusicFromPlaylist;

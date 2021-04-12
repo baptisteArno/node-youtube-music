@@ -15,6 +15,11 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!music) {
         throw Error();
     }
-    return src_1.default.getSuggestions(music.youtubeId, { lang: 'fr', country: 'FR' });
+    if (!music.youtubeId)
+        return;
+    src_1.default.getSuggestions(music.youtubeId, {
+        lang: 'fr',
+        country: 'FR',
+    });
 });
 main().then((results) => console.log(results));

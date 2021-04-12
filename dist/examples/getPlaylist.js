@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
-const main = () => src_1.default.listMusicsFromPlaylist('VLRDCLAK5uy_kL57PLcOmExjhzqGfGhvA82ZWe4fPH2c4', {
+const main = () => src_1.default.listMusicsFromPlaylist('VLRDCLAK5uy_n20FRYQXNt1p1wS55Nj2r14IouO5weaYU', {
     lang: 'fr',
     country: 'FR',
 });

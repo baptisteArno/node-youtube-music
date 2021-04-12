@@ -3,7 +3,7 @@ import context from './context';
 import { MusicVideo } from './models';
 import { parseMusicFromPlaylist } from './parsers';
 
-export const parsePlaylist = (body: {
+export const parsePlaylist = async (body: {
   contents: {
     singleColumnBrowseResultsRenderer: {
       tabs: {
@@ -17,7 +17,7 @@ export const parsePlaylist = (body: {
       }[];
     };
   };
-}): MusicVideo[] => {
+}): Promise<MusicVideo[]> => {
   const {
     contents,
   } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
