@@ -4,15 +4,11 @@ import { parseSongSearchResult } from './parsers';
 import context from './context';
 
 export const parseMusicsSearchBody = (body: {
-  contents: {
-    sectionListRenderer: {
-      contents: { musicShelfRenderer: { contents: [] } }[];
-    };
-  };
+  contents: any;
 }): MusicVideo[] => {
   const {
     contents,
-  } = body.contents.sectionListRenderer.contents[0].musicShelfRenderer;
+  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
 
   const results: MusicVideo[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

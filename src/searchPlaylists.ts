@@ -4,18 +4,12 @@ import { PlaylistPreview } from './models';
 import { parsePlaylistsSearchResults } from './parsers';
 
 export const parsePlaylistsSearchBody = (
-  body: {
-    contents: {
-      sectionListRenderer: {
-        contents: { musicShelfRenderer: { contents: [] } }[];
-      };
-    };
-  },
+  body: any,
   onlyOfficialPlaylists: boolean
 ): PlaylistPreview[] => {
   const {
     contents,
-  } = body.contents.sectionListRenderer.contents[0].musicShelfRenderer;
+  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
 
   const results: PlaylistPreview[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
