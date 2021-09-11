@@ -9,10 +9,21 @@ export interface MusicVideo {
   thumbnailUrl?: string;
   artist?: string;
   album?: string;
+  isExplicit?: boolean;
   duration?: {
     label: string;
     totalSeconds: number;
   };
+}
+
+export interface AlbumPreview {
+  albumId?: string;
+  title?: string;
+  thumbnailUrl?: string;
+  artist?: string;
+  artistId?: string;
+  year?: string;
+  isExplicit?: boolean;
 }
 
 export interface PlaylistPreview {
