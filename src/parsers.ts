@@ -1,4 +1,4 @@
-import { MusicVideo, PlaylistPreview } from './models';
+import { MusicVideo, PlaylistPreview, AlbumPreview } from './models';
 
 // eslint-disable-next-line import/prefer-default-export
 export const parseDuration = (durationLabel: string): number => {
@@ -27,6 +27,13 @@ export const parseSongSearchResult = (content: {
         thumbnail: { thumbnails: { url: string }[] };
       };
     };
+    badges: {
+      musicInlineBadgeRenderer:{
+        icon:{
+          iconType: string;
+        }
+      }
+    }[]
   };
 }): MusicVideo | null => {
   let youtubeId;
@@ -88,6 +95,12 @@ export const parseSongSearchResult = (content: {
   } catch (err) {
     console.log("Couldn't parse duration", err);
   }
+  let isExplicit;
+  try {
+    isExplicit = content.musicResponsiveListItemRenderer.badges[0].musicInlineBadgeRenderer.icon.iconType === "MUSIC_EXPLICIT_BADGE"
+  }catch (err) {
+    isExplicit = false
+  }
   return {
     youtubeId,
     title,
@@ -95,6 +108,7 @@ export const parseSongSearchResult = (content: {
     album,
     thumbnailUrl,
     duration,
+    isExplicit,
   };
 };
 
@@ -262,6 +276,13 @@ export const parseMusicFromPlaylist = (content: {
         };
       };
     }[];
+    badges: {
+      musicInlineBadgeRenderer:{
+        icon:{
+          iconType: string;
+        }
+      }
+    }[];
   };
 }): MusicVideo | null => {
   let youtubeId;
@@ -323,6 +344,13 @@ export const parseMusicFromPlaylist = (content: {
   } catch (err) {
     console.log("Couldn't parse duration", err);
   }
+
+  let isExplicit;
+  try {
+    isExplicit = content.musicResponsiveListItemRenderer?.badges[0].musicInlineBadgeRenderer.icon.iconType === "MUSIC_EXPLICIT_BADGE"
+  } catch (err) {
+    isExplicit = false
+  }
   return {
     youtubeId,
     title,
@@ -330,5 +358,243 @@ export const parseMusicFromPlaylist = (content: {
     album,
     thumbnailUrl,
     duration,
+    isExplicit,
   };
 };
+
+export const parseAlbumSearchResult = (content:{
+  musicResponsiveListItemRenderer: {
+    thumbnail: {
+      musicThumbnailRenderer: {
+        thumbnail: {
+          thumbnails: { url: string }[];
+        };
+      };
+    };
+    flexColumns: {
+      musicResponsiveListItemFlexColumnRenderer: {
+        text: {
+          runs: {
+            text: string;
+            navigationEndpoint? :{
+              browseEndpoint:{
+                browseId:string
+              }
+            }
+          }[];
+        };
+      };
+    }[];
+    navigationEndpoint: {
+      browseEndpoint:{
+        browseId: string;
+      }
+    };
+    badges: {
+      musicInlineBadgeRenderer:{
+        icon:{
+          iconType: string;
+        }
+      }
+    }[]
+  };
+}): AlbumPreview | null =>{
+
+  let albumId;
+  try {
+    albumId = content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint.browseId
+  }
+  catch(err){
+    console.error("Couldn't parse albumId", err)
+  }
+
+  let title;
+  try {
+    title = content.musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+  }
+  catch(err){
+    console.error("Couldn't parse title", err)
+  }
+
+  let thumbnailUrl;
+  try {
+    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url
+  }
+  catch(err){
+    console.error("Couldn't parse thumbnailUrl", err)
+  }
+
+  let artist;
+  try {
+    artist = content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+  }
+  catch(err){
+    console.error("Couldn't parse artist", err)
+  }
+
+  let artistId;
+  try {
+    artistId = content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].navigationEndpoint?.browseEndpoint.browseId
+  }
+  catch(err){
+    console.error("Couldn't parse artistId", err)
+  }
+
+  let year;
+  try{
+    year = content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+  }
+  catch(err){
+    console.error("Couldn't parse year", err)
+  }
+
+  let isExplicit;
+  try{
+    isExplicit = content.musicResponsiveListItemRenderer?.badges[0].musicInlineBadgeRenderer.icon.iconType === "MUSIC_EXPLICIT_BADGE"
+  }
+  catch(err){
+    isExplicit = false
+  }
+  return{
+    albumId,
+    title,
+    thumbnailUrl,
+    artist,
+    artistId,
+    year,
+    isExplicit
+  }
+}
+
+
+export const parseAlbumHeader = (content:{
+  musicDetailHeaderRenderer:{
+    title:{
+      runs:{
+        text:string;
+      }[];
+    };
+    subtitle:{
+      runs:{
+        text:string;
+      }[]
+    };
+    thumbnail:{
+      croppedSquareThumbnailRenderer:{
+        thumbnail:{
+          thumbnails:{
+            url:string;
+          }[];
+        }
+      }
+    };
+  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+}):any => {
+
+  let artist;
+  try {
+    artist = content.musicDetailHeaderRenderer.subtitle.runs[2].text
+  } catch (err) {
+    console.error("Couldn't parse artist from album header", err)
+  }
+  let album;
+  try {
+    album = content.musicDetailHeaderRenderer.title.runs[0].text
+  } catch (err) {
+    console.error("Couldn't parse title from album header", err)
+  }
+  let thumbnailUrl;
+  try {
+    thumbnailUrl = content.musicDetailHeaderRenderer.thumbnail.croppedSquareThumbnailRenderer.thumbnail.thumbnails.pop()?.url
+  } catch (err) {
+    console.error("Couldn't parse thumbnailUrl from album header", err)
+  }
+  return {
+    artist,
+    album,
+    thumbnailUrl
+  }
+}
+
+export const parseMusicFromAlbum = (content: {
+  musicResponsiveListItemRenderer:{
+    fixedColumns:{
+      musicResponsiveListItemFixedColumnRenderer:{
+        text:{
+          runs:{
+            text:string;
+          }[]
+        }
+      }
+    }[];
+    flexColumns:{
+      musicResponsiveListItemFlexColumnRenderer:{
+        text:{
+          runs:{
+            text: string;
+            navigationEndpoint:{
+              watchEndpoint:{
+                videoId: string;
+              }
+            }
+          }[]
+        };
+      }
+    }[];
+    badges:{
+      musicInlineBadgeRenderer:{
+        icon:{
+          iconType: string;
+        }
+      }
+    }[];
+  }
+}):MusicVideo =>{
+  let youtubeId;
+  try {
+    youtubeId =
+      content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
+        .navigationEndpoint.watchEndpoint.videoId;
+  } catch (err) {
+    console.log("Couldn't parse youtube id", err);
+  }
+
+  let title;
+  try {
+    title =
+      content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
+  } catch (err) {
+    console.log("Couldn't parse title", err);
+  }
+
+  let duration;
+  try {
+    duration = {
+      label:
+        content.musicResponsiveListItemRenderer.fixedColumns[0]
+          .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text,
+      totalSeconds: parseDuration(
+        content.musicResponsiveListItemRenderer.fixedColumns[0]
+          .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text
+      ),
+    };
+  } catch (err) {
+    console.log("Couldn't parse duration", err);
+  }
+  let isExplicit;
+  try {
+    isExplicit = content.musicResponsiveListItemRenderer?.badges[0].musicInlineBadgeRenderer.icon.iconType === "MUSIC_EXPLICIT_BADGE"
+  } catch (err) {
+    isExplicit = false
+  }
+
+  return{
+    youtubeId,
+    title,
+    duration,
+    isExplicit
+  }
+}
