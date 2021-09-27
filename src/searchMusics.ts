@@ -1,9 +1,9 @@
 import got from 'got';
 import { MusicVideo } from './models';
-import { parseSongSearchResult } from './parsers';
+import { parseMusicItem } from './parsers';
 import context from './context';
 
-export const parseMusicsSearchBody = (body: {
+export const parseSearchMusicsBody = (body: {
   contents: any;
 }): MusicVideo[] => {
   const {
@@ -14,7 +14,7 @@ export const parseMusicsSearchBody = (body: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const song = parseSongSearchResult(content);
+      const song = parseMusicItem(content);
       if (song) {
         results.push(song);
       }
@@ -25,7 +25,7 @@ export const parseMusicsSearchBody = (body: {
   return results;
 };
 
-export default async function searchMusics(
+export async function searchMusics(
   query: string,
   options?: {
     lang?: string;
@@ -49,7 +49,7 @@ export default async function searchMusics(
     }
   );
   try {
-    return parseMusicsSearchBody(JSON.parse(response.body));
+    return parseSearchMusicsBody(JSON.parse(response.body));
   } catch {
     return [];
   }

@@ -1,23 +1,9 @@
-import searchMusics, { parseMusicsSearchBody } from './searchMusics';
-import searchPlaylists, { parsePlaylistsSearchBody } from './searchPlaylists';
-import getSuggestions, { parseSuggestionsBody } from './suggestions';
-import searchAlbums, {parseAlbumsSearchBody} from './searchAlbums';
-import listMusicsFromAlbum, {parseAlbum} from './listMusicsFromAlbum';
-import listMusicsFromPlaylist, {
-  parsePlaylist,
-} from './listMusicsFromPlaylist';
+export * from './models';
 
-export default {
-  parseMusicsSearchBody,
-  parseSuggestionsBody,
-  parsePlaylistsSearchBody,
-  parsePlaylist,
-  searchMusics,
-  searchPlaylists,
-  getSuggestions,
-  listMusicsFromPlaylist,
-  searchAlbums,
-  parseAlbumsSearchBody,
-  listMusicsFromAlbum,
-  parseAlbum
-};
+export * from './searchMusics';
+export * from './searchAlbums';
+export * from './searchPlaylists';
+export * from './suggestions';
+
+export * from './listMusicsFromAlbum';
+export * from './listMusicsFromPlaylist';

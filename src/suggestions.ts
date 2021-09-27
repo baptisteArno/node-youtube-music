@@ -1,9 +1,9 @@
 import got from 'got';
 import { MusicVideo } from './models';
-import { parseSuggestion } from './parsers';
+import { parseSuggestionItem } from './parsers';
 import context from './context';
 
-export const parseSuggestionsBody = (body: {
+export const parseGetSuggestionsBody = (body: {
   contents: {
     singleColumnMusicWatchNextResultsRenderer: {
       tabbedRenderer: {
@@ -30,7 +30,7 @@ export const parseSuggestionsBody = (body: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const video = parseSuggestion(content);
+      const video = parseSuggestionItem(content);
       if (video) {
         results.push(video);
       }
@@ -41,7 +41,7 @@ export const parseSuggestionsBody = (body: {
   return results;
 };
 
-export default async function getSuggestions(
+export async function getSuggestions(
   videoId: string,
   options?: {
     lang?: string;
@@ -73,7 +73,7 @@ export default async function getSuggestions(
     }
   );
   try {
-    return parseSuggestionsBody(JSON.parse(response.body));
+    return parseGetSuggestionsBody(JSON.parse(response.body));
   } catch {
     return [];
   }

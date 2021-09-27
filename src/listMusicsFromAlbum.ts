@@ -1,19 +1,21 @@
 import got from 'got';
 import context from './context';
 import { MusicVideo } from './models';
-import { parseMusicFromAlbum, parseAlbumHeader } from './parsers';
+import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseAlbum = (body:any): MusicVideo[] => {
-  const { contents } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer
-  const songs:MusicVideo[] = []
-  const { thumbnailUrl, artist, album } = parseAlbumHeader(body.header)
+export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
+  const {
+    contents,
+  } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
+  const songs: MusicVideo[] = [];
+  const { thumbnailUrl, artist, album } = parseAlbumHeader(body.header);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  contents.forEach((element:any)=>{
+  contents.forEach((element: any) => {
     try {
-      const song = parseMusicFromAlbum(element)
-      if(song){
+      const song = parseMusicInAlbumItem(element);
+      if (song) {
         song.album = album;
         song.artist = artist;
         song.thumbnailUrl = thumbnailUrl;
@@ -21,12 +23,12 @@ export const parseAlbum = (body:any): MusicVideo[] => {
       }
     } catch (err) {
       console.error(err);
-    }    
-  })
-  return songs
-}
+    }
+  });
+  return songs;
+};
 
-export default async function listMusicsFromAlbum(
+export async function listMusicsFromAlbum(
   albumId: string,
   options?: {
     lang?: string;
@@ -49,7 +51,7 @@ export default async function listMusicsFromAlbum(
     }
   );
   try {
-    return parseAlbum(JSON.parse(response.body))
+    return parseListMusicsFromAlbumBody(JSON.parse(response.body));
   } catch (e) {
     console.error(e);
     return [];

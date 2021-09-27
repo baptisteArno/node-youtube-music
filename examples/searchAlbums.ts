@@ -1,6 +1,5 @@
-import ytMusic from '../src';
+import { searchAlbums } from '../src';
 
-const main = () =>
-  ytMusic.searchAlbums('Future Nostalgia');
+const main = () => searchAlbums('Future Nostalgia');
 
 main().then((results) => console.log(results));

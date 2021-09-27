@@ -32,7 +32,7 @@ yarn add node-youtube-music
 ## How to use
 
 ```ts
-import ytMusic from 'node-youtube-music';
+import * as ytMusic from 'node-youtube-music';
 
 const musics = await ytMusic.searchMusics('Never gonna give you up');
 

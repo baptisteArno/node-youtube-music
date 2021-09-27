@@ -1,6 +1,6 @@
-import ytMusic from '../src';
+import { searchPlaylists } from '../src';
 
 const main = () =>
-  ytMusic.searchPlaylists('Daft Punk', { onlyOfficialPlaylists: true });
+  searchPlaylists('Daft Punk', { onlyOfficialPlaylists: true });
 
 main().then((results) => console.log(results));

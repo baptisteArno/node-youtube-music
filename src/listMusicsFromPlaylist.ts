@@ -1,9 +1,9 @@
 import got from 'got';
 import context from './context';
 import { MusicVideo } from './models';
-import { parseMusicFromPlaylist } from './parsers';
+import { parseMusicInPlaylistItem } from './parsers';
 
-export const parsePlaylist = async (body: {
+export const parseListMusicsFromPlaylistBody = (body: {
   contents: {
     singleColumnBrowseResultsRenderer: {
       tabs: {
@@ -17,7 +17,7 @@ export const parsePlaylist = async (body: {
       }[];
     };
   };
-}): Promise<MusicVideo[]> => {
+}): MusicVideo[] => {
   const {
     contents,
   } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
@@ -26,7 +26,7 @@ export const parsePlaylist = async (body: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const song = parseMusicFromPlaylist(content);
+      const song = parseMusicInPlaylistItem(content);
       if (song) {
         results.push(song);
       }
@@ -37,7 +37,7 @@ export const parsePlaylist = async (body: {
   return results;
 };
 
-export default async function listMusicsFromPlaylist(
+export async function listMusicsFromPlaylist(
   playlistId: string,
   options?: {
     lang?: string;
@@ -60,7 +60,7 @@ export default async function listMusicsFromPlaylist(
     }
   );
   try {
-    return parsePlaylist(JSON.parse(response.body));
+    return parseListMusicsFromPlaylistBody(JSON.parse(response.body));
   } catch (e) {
     console.error(e);
     return [];

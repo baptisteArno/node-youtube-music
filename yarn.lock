@@ -501,6 +501,23 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@rollup/plugin-typescript@^8.2.5":
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.2.5.tgz#e0319761b2b5105615e5a0c371ae05bc2984b7de"
+  integrity sha512-QL/LvDol/PAGB2O0S7/+q2HpSUNodpw7z6nGn9BfoVCPOZ0r4EALrojFU29Bkoi2Hr2jgTocTejJ5GGWZfOxbQ==
+  dependencies:
+    "@rollup/pluginutils" "^3.1.0"
+    resolve "^1.17.0"
+
+"@rollup/pluginutils@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
+  integrity sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
+  dependencies:
+    "@types/estree" "0.0.39"
+    estree-walker "^1.0.1"
+    picomatch "^2.2.2"
+
 "@sindresorhus/is@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.0.0.tgz#2ff674e9611b45b528896d820d3d7a812de2f0e4"
@@ -569,6 +586,11 @@
     "@types/keyv" "*"
     "@types/node" "*"
     "@types/responselike" "*"
+
+"@types/estree@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+  integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.4"
@@ -1697,6 +1719,11 @@ estraverse@^5.1.0, estraverse@^5.2.0:
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
   integrity sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==
 
+estree-walker@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
+  integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
+
 esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
@@ -1937,6 +1964,11 @@ fsevents@^2.1.2:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.2.1.tgz#1fb02ded2036a8ac288d507a65962bd87b97628d"
   integrity sha512-bTLYHSeC0UH/EFXS9KqWnXuOl/wHK5Z/d+ghd5AsFMYN7wIGkUCOJyzy88+wJKkZPGON8u4Z9f6U4FdgURE9qA==
+
+fsevents@~2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -3574,6 +3606,11 @@ picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
+picomatch@^2.2.2:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
+  integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
+
 pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -3855,6 +3892,13 @@ rimraf@^3.0.0, rimraf@^3.0.2:
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
+
+rollup@^2.57.0:
+  version "2.57.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.57.0.tgz#c1694475eb22e1022477c0f4635fd0ac80713173"
+  integrity sha512-bKQIh1rWKofRee6mv8SrF2HdP6pea5QkwBZSMImJysFj39gQuiV8MEPBjXOCpzk3wSYp63M2v2wkWBmFC8O/rg==
+  optionalDependencies:
+    fsevents "~2.3.2"
 
 rsvp@^4.8.4:
   version "4.8.5"

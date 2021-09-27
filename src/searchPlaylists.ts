@@ -1,9 +1,9 @@
 import got from 'got';
 import context from './context';
 import { PlaylistPreview } from './models';
-import { parsePlaylistsSearchResults } from './parsers';
+import { parsePlaylistItem } from './parsers';
 
-export const parsePlaylistsSearchBody = (
+export const parseSearchPlaylistsBody = (
   body: any,
   onlyOfficialPlaylists: boolean
 ): PlaylistPreview[] => {
@@ -15,10 +15,7 @@ export const parsePlaylistsSearchBody = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
-      const playlist = parsePlaylistsSearchResults(
-        content,
-        onlyOfficialPlaylists
-      );
+      const playlist = parsePlaylistItem(content, onlyOfficialPlaylists);
       if (playlist) {
         results.push(playlist);
       }
@@ -29,7 +26,7 @@ export const parsePlaylistsSearchBody = (
   return results;
 };
 
-export default async function searchPlaylists(
+export async function searchPlaylists(
   query: string,
   options?: {
     lang?: string;
@@ -54,7 +51,7 @@ export default async function searchPlaylists(
     }
   );
   try {
-    return parsePlaylistsSearchBody(
+    return parseSearchPlaylistsBody(
       JSON.parse(response.body),
       options?.onlyOfficialPlaylists ?? false
     );

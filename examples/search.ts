@@ -1,5 +1,5 @@
-import ytMusic from '../src';
+import { searchMusics } from '../src';
 
-const main = () => ytMusic.searchMusics('DJOKO', { lang: 'fr', country: 'FR' });
+const main = () => searchMusics('DJOKO', { lang: 'fr', country: 'FR' });
 
 main().then((results) => console.log(results));
