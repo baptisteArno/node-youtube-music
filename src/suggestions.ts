@@ -41,18 +41,12 @@ export const parseGetSuggestionsBody = (body: {
   return results;
 };
 
-export async function getSuggestions(
-  videoId: string,
-  options?: {
-    lang?: string;
-    country?: string;
-  }
-): Promise<MusicVideo[]> {
+export async function getSuggestions(videoId: string): Promise<MusicVideo[]> {
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/next',
     {
       json: {
-        ...context.body(options?.lang),
+        ...context.body,
         enablePersistentPlaylistPanel: true,
         isAudioOnly: true,
         params: 'mgMDCNgE',
@@ -67,7 +61,6 @@ export async function getSuggestions(
       headers: {
         'User-Agent':
           'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-        'Accept-Language': options?.lang ?? 'en',
         origin: 'https://music.youtube.com',
       },
     }

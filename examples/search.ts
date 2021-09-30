@@ -1,5 +1,5 @@
 import { searchMusics } from '../src';
 
-const main = () => searchMusics('DJOKO', { lang: 'fr', country: 'FR' });
+const main = () => searchMusics('DJOKO');
 
 main().then((results) => console.log(results));

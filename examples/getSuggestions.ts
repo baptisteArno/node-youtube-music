@@ -1,17 +1,12 @@
 import { getSuggestions, searchMusics } from '../src';
 
 const main = async () => {
-  const music = (
-    await searchMusics('Liem if only', { lang: 'fr', country: 'FR' })
-  ).shift();
+  const music = (await searchMusics('Liem if only')).shift();
   if (!music) {
     throw Error();
   }
   if (!music.youtubeId) return;
-  getSuggestions(music.youtubeId, {
-    lang: 'fr',
-    country: 'FR',
-  });
+  getSuggestions(music.youtubeId);
 };
 
 main().then((results) => console.log(results));
