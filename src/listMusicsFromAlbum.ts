@@ -17,7 +17,7 @@ export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
       const song = parseMusicInAlbumItem(element);
       if (song) {
         song.album = album;
-        song.artist = artist;
+        if(song.artists?.length === 0) song.artists = [{name:artist}]
         song.thumbnailUrl = thumbnailUrl;
         songs.push(song);
       }
