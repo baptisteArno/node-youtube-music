@@ -34,11 +34,12 @@ export interface ArtistPreview {
 }
 
 export interface Artist {
+  artistId?: string
   name?: string;
   description?: string;
   thumbnails?: any[];
   songsPlaylistId?: string;
-  albums?:AlbumPreview[];
+  albums?: AlbumPreview[];
   suggestedArtists?: ArtistPreview[];
   subscribers?: string;
 }

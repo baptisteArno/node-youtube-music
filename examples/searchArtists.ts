@@ -16,5 +16,4 @@ searchArtists('Selena Gomez').then(r=>{
             })
         }
     });
-
 });

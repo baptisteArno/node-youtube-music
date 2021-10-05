@@ -9,5 +9,6 @@ test('Search for Dua Lipa and get more data', async () => {
   expect(firstResult).toBeDefined()
   const data = await getArtist(firstResult.artistId!)
   expect(data).toBeDefined()
+  expect(data.suggestedArtists?.length).toBeGreaterThanOrEqual(1)
   console.log(data)
 });

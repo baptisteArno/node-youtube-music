@@ -28,7 +28,7 @@ export async function getArtist(
   );
 
   try {
-    return parseArtistData(JSON.parse(response.body));
+    return parseArtistData(JSON.parse(response.body), artistId);
   } catch (e) {
     console.error(e);
     return {}

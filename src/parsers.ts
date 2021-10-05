@@ -717,6 +717,72 @@ export const parseArtistsAlbumItem = (item:{
   }
 }
 
+const parseArtistsSuggestionsItem = (item: {
+  musicTwoRowItemRenderer:{
+    thumbnailRenderer:{
+      musicThumbnailRenderer:{
+        thumbnail:{
+          thumbnails:{
+            url:string;
+          }[];
+        };
+      };
+    };
+    title:{
+      runs:{
+        text:string;
+        navigationEndpoint:{
+          browseEndpoint:{
+            browseId:string;
+          }
+        }
+      }[];
+    };
+    subtitle:{
+      runs:{
+        text:string;
+      }[]
+    };
+}}):ArtistPreview => {
+  let artistId;
+  try {
+    artistId = item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseId;
+  } catch (e) {
+    console.error("Couldn't get artistId",e)
+  }
+
+  let name;
+  try {
+    name = item.musicTwoRowItemRenderer.title.runs[0].text;
+  } catch (e) {
+    console.error("Couldn't get name", e)
+  }
+
+  let subscribers;
+  try {
+    subscribers = item.musicTwoRowItemRenderer.subtitle.runs[0].text;
+    const subscribersArray = subscribers.split(" ")
+    subscribersArray.pop();
+    subscribers = subscribersArray.join(" ")
+  } catch (e) {
+    console.error("Couldn't get subscribers", e);
+  }
+
+  let thumbnailUrl;
+  try {
+    thumbnailUrl = item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url;
+  } catch (e) {
+    console.error("Couldn't get thumbnailUrl", e);
+    
+  }
+  return {
+    artistId,
+    name,
+    subscribers,
+    thumbnailUrl,
+  };
+}
+
 
 export const parseArtistData = (body:{
   header:{
@@ -826,7 +892,8 @@ export const parseArtistData = (body:{
       }[]
     }
   }
-}):Artist =>{
+},
+artistId:string):Artist =>{
   let name;
   try {
     name = body.header.musicImmersiveHeaderRenderer.title.runs[0].text
@@ -859,9 +926,9 @@ export const parseArtistData = (body:{
   }
 
 
-  const albums:ArtistPreview[] = [];
+  const albums:AlbumPreview[] = [];
   try {
-    const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer
+    const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer;
     // eslint-disable-next-line  no-restricted-syntax
     for(const shelf of contents){
       if(shelf.musicCarouselShelfRenderer?.contents){
@@ -875,6 +942,21 @@ export const parseArtistData = (body:{
     console.error("Couldn't get albums", e)
   }
 
+  const suggestedArtists:ArtistPreview[] = [];
+  try {
+    const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer;
+    // eslint-disable-next-line  no-restricted-syntax
+    for(let i=contents.length-1; i>=0; i-=1){
+      if(contents[i].musicCarouselShelfRenderer) {
+        contents[i].musicCarouselShelfRenderer.contents.forEach(v=>{
+          suggestedArtists.push(parseArtistsSuggestionsItem(v));
+        })
+        break;
+      }
+    }
+  } catch (e) {
+    console.error("Couldn't get suggestedArtists", e);
+  }
 
   let subscribers;
   try {
@@ -883,11 +965,13 @@ export const parseArtistData = (body:{
     console.error("Couldn't get subscribers", e)
   }
   return {
+    artistId,
     name,
     description,
     albums,
     thumbnails,
     songsPlaylistId,
+    suggestedArtists,
     subscribers
   }
 }
