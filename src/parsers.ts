@@ -1,4 +1,4 @@
-import { MusicVideo, PlaylistPreview, AlbumPreview, Artist, ArtistPreview } from './models';
+import { MusicVideo, PlaylistPreview, AlbumPreview, Artist, ArtistPreview, PageType, AlbumType } from './models';
 
 const explicitBadgeText = 'MUSIC_EXPLICIT_BADGE';
 
@@ -11,6 +11,16 @@ const parseDuration = (durationLabel: string): number => {
     : parseInt(durationList[0], 10) * 60 + parseInt(durationList[1], 10);
 };
 
+const getAlbumType = (typeText:string):AlbumType =>{
+  switch(typeText){
+    case AlbumType.album:
+      return AlbumType.album;
+    case AlbumType.ep:
+      return AlbumType.ep;
+    default:
+      return AlbumType.single;
+  }
+} 
 // Detects multiple artists of the MusicVideo
 export const listArtists = (data: any[]): {name:string; id:string}[] => {
   const artists:{name:string; id:string}[] = [];
@@ -411,6 +421,11 @@ export const parseAlbumItem = (content: {
     navigationEndpoint: {
       browseEndpoint: {
         browseId: string;
+        browseEndpointContextSupportedConfigs: {
+          browseEndpointContextMusicConfig: {
+            pageType: string;
+          }
+        }
       };
     };
     badges: {
@@ -438,6 +453,13 @@ export const parseAlbumItem = (content: {
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
   } catch (err) {
     console.error("Couldn't parse title", err);
+  }
+
+  let type;
+  try {
+    type = getAlbumType(content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text)
+  } catch (err) {
+    console.error("Couldn't parse album type", err);
   }
 
   let thumbnailUrl;
@@ -487,6 +509,7 @@ export const parseAlbumItem = (content: {
   return {
     albumId,
     title,
+    type,
     thumbnailUrl,
     artist,
     artistId,
@@ -647,7 +670,12 @@ export const parseArtistsAlbumItem = (item:{
         text:string;
         navigationEndpoint:{
           browseEndpoint:{
-            browseId:string
+            browseId:string;
+            browseEndpointContextSupportedConfigs: {
+              browseEndpointContextMusicConfig: {
+                pageType: string;
+              }
+            }
           }
         };
       }[]
@@ -682,6 +710,13 @@ export const parseArtistsAlbumItem = (item:{
     console.error("Couldn't get title", e)
   }
 
+  let type;
+  try {
+    type = getAlbumType(item.musicTwoRowItemRenderer.subtitle.runs[0].text)
+  } catch (e) {
+    console.error("Couldn't get album type", e)
+  }
+
   let albumId;
   try {
     albumId = item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseId
@@ -710,6 +745,7 @@ export const parseArtistsAlbumItem = (item:{
   }
   return {
     title,
+    type,
     albumId,
     year,
     thumbnailUrl,
@@ -828,7 +864,12 @@ export const parseArtistData = (body:{
                       text:string;
                       navigationEndpoint:{
                         browseEndpoint:{
-                          browseId:string
+                          browseId:string;
+                          browseEndpointContextSupportedConfigs: {
+                            browseEndpointContextMusicConfig: {
+                              pageType: string;
+                            }
+                          }
                         }
                       }
                     }[]
@@ -856,7 +897,12 @@ export const parseArtistData = (body:{
                           text:string;
                           navigationEndpoint:{
                             browseEndpoint:{
-                              browseId:string
+                              browseId:string;
+                              browseEndpointContextSupportedConfigs: {
+                                browseEndpointContextMusicConfig: {
+                                  pageType: string;
+                                }
+                              }
                             }
                           };
                         }[];
@@ -927,15 +973,20 @@ artistId:string):Artist =>{
 
 
   const albums:AlbumPreview[] = [];
+  const singles:AlbumPreview[] = [];
   try {
     const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer;
     // eslint-disable-next-line  no-restricted-syntax
     for(const shelf of contents){
       if(shelf.musicCarouselShelfRenderer?.contents){
-        shelf.musicCarouselShelfRenderer.contents.forEach(item=>{
-          albums.push(parseArtistsAlbumItem(item))
-        })
-        break;
+        if(shelf.musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer.title.runs[0].navigationEndpoint?.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.album)
+          shelf.musicCarouselShelfRenderer.contents.forEach(item=>{
+            const parsedItem = parseArtistsAlbumItem(item)
+            if(parsedItem.type === AlbumType.single) 
+              singles.push(parsedItem);
+            else
+              albums.push(parsedItem);
+          })
       }
     }
   } catch (e) {
@@ -948,9 +999,10 @@ artistId:string):Artist =>{
     // eslint-disable-next-line  no-restricted-syntax
     for(let i=contents.length-1; i>=0; i-=1){
       if(contents[i].musicCarouselShelfRenderer) {
-        contents[i].musicCarouselShelfRenderer.contents.forEach(v=>{
-          suggestedArtists.push(parseArtistsSuggestionsItem(v));
-        })
+        if(contents[i].musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.artist)
+          contents[i].musicCarouselShelfRenderer.contents.forEach(v=>{
+            suggestedArtists.push(parseArtistsSuggestionsItem(v));
+          })
         break;
       }
     }
@@ -969,6 +1021,7 @@ artistId:string):Artist =>{
     name,
     description,
     albums,
+    singles,
     thumbnails,
     songsPlaylistId,
     suggestedArtists,

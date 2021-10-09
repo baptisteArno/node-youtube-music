@@ -3,6 +3,18 @@ export enum AccountType {
   VERIFIED_ARTIST = 'BADGE_STYLE_TYPE_VERIFIED_ARTIST',
 }
 
+export enum AlbumType {
+  ep='EP',
+  album='Album',
+  single='Single'
+}
+
+export enum PageType {
+  artist='MUSIC_PAGE_TYPE_ARTIST',
+  album='MUSIC_PAGE_TYPE_ALBUM',
+  playlist='MUSIC_PAGE_TYPE_PLAYLIST',
+}
+
 export interface MusicVideo {
   youtubeId?: string;
   title?: string;
@@ -19,6 +31,7 @@ export interface MusicVideo {
 export interface AlbumPreview {
   albumId?: string;
   title?: string;
+  type?: AlbumType;
   thumbnailUrl?: string;
   artist?: string;
   artistId?: string;
@@ -40,6 +53,7 @@ export interface Artist {
   thumbnails?: any[];
   songsPlaylistId?: string;
   albums?: AlbumPreview[];
+  singles?: AlbumPreview[];
   suggestedArtists?: ArtistPreview[];
   subscribers?: string;
 }
