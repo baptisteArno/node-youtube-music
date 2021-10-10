@@ -25,7 +25,7 @@ const getAlbumType = (typeText:string):AlbumType =>{
 export const listArtists = (data: any[]): {name:string; id:string}[] => {
   const artists:{name:string; id:string}[] = [];
   data.forEach(item =>{
-    if(item.navigationEndpoint && item.navigationEndpoint.browseEndpoint.browseId.startsWith("UC")) {
+    if(item.navigationEndpoint && item.navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.artist) {
       artists.push({name:item.text, id: item.navigationEndpoint.browseEndpoint.browseId})
     }
   })

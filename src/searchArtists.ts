@@ -6,8 +6,7 @@ import {parseArtistSearchResult} from './parsers'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseArtistsSearchBody = (body: any): ArtistPreview[] =>{
-  const {contents} = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer
-
+  const {contents} = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer
   const results: ArtistPreview[] = []
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
