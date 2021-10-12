@@ -17,6 +17,22 @@
   </a>
 </p>
 
+
+## Features
+
+- [x] Search
+  - [x] Musics
+  - [x] Playlists
+  - [x] Albums
+  - [x] Artists
+- [x] List musics from playlist
+- [x] List musics from album
+- [x] List albums from artist
+- [x] List musics from artist
+- [x] Get suggestions from music
+- [ ] Playlist management (create, push, remove)
+- [ ] Library management
+
 ## Get started
 
 ```shell
@@ -38,16 +54,3 @@ const musics = await ytMusic.searchMusics('Never gonna give you up');
 
 const suggestions = ytMusic.getSuggestions(musics[0].youtubeId);
 ```
-
-## Looking for contributors 👇
-
-- [ ] Search
-  - [x] Musics
-  - [x] Playlists
-  - [x] Albums
-  - [ ] Artists
-- [x] List musics from playlist
-- [x] List musics from album
-- [x] Suggestions from music ID
-- [ ] Playlist management (create, push, remove)
-- [ ] Library management
