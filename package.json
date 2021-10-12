@@ -28,6 +28,7 @@
     "start:example:suggestions": "yarn build && node dist/examples/getSuggestions",
     "start:example:searchPlaylists": "yarn build && node dist/examples/searchPlaylists",
     "start:example:searchAlbums": "yarn build && node dist/examples/searchAlbums",
+    "start:example:searchArtists": "yarn build && node dist/examples/searchArtists",
     "start:example:getPlaylist": "yarn build && node dist/examples/getPlaylist",
     "start:example:getAlbum": "yarn build && node dist/examples/getAlbum",
     "build": "eslint src/**/* examples/**/* && tsc",

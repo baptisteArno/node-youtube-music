@@ -7,7 +7,7 @@ import { parseAlbumItem } from './parsers';
 export const parseSearchAlbumsBody = (body: any): AlbumPreview[] => {
   const {
     contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
+  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
 
   const results: AlbumPreview[] = [];
 

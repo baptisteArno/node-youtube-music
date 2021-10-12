@@ -8,7 +8,7 @@ export const parseSearchMusicsBody = (body: {
 }): MusicVideo[] => {
   const {
     contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
+  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
 
   const results: MusicVideo[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
