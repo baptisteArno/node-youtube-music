@@ -52,6 +52,7 @@ export async function getSuggestions(videoId: string): Promise<MusicVideo[]> {
         params: 'mgMDCNgE',
         playerParams: 'igMDCNgE',
         tunerSettingValue: 'AUTOMIX_SETTING_NORMAL',
+        playlistId: "RDAMVM" + videoId,
         videoId,
       },
       searchParams: {
