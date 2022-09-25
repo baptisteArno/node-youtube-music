@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: yarn
+      - run: yarn install --frozen-lockfile
       - run: yarn test
       - run: yarn build
       - uses: JS-DevTools/npm-publish@v1
