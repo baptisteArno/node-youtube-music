@@ -20,15 +20,22 @@ const getAlbumType = (typeText:string):AlbumType =>{
     default:
       return AlbumType.single;
   }
-} 
+}
 // Detects multiple artists of the MusicVideo
-export const listArtists = (data: any[]): {name:string; id:string}[] => {
-  const artists:{name:string; id:string}[] = [];
+export const listArtists = (data: any[]): {name:string; id?:string}[] => {
+  const artists:{name:string; id?:string}[] = [];
   data.forEach(item =>{
     if(item.navigationEndpoint && item.navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.artist) {
       artists.push({name:item.text, id: item.navigationEndpoint.browseEndpoint.browseId})
     }
   })
+  if(artists.length === 0){
+    const delimiterIndex = data.findIndex(item => item.text === ' • ');
+    if(delimiterIndex !== -1){
+      data.filter((item, index) => index < delimiterIndex && item.name !== ' & ')
+          .forEach(item => artists.push({name:item.text}))
+    }
+  }
   return artists;
 }
 
@@ -809,7 +816,7 @@ const parseArtistsSuggestionsItem = (item: {
     thumbnailUrl = item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url;
   } catch (e) {
     console.error("Couldn't get thumbnailUrl", e);
-    
+
   }
   return {
     artistId,
@@ -850,7 +857,7 @@ export const parseArtistData = (body:{
         }
       }
     }
-  }; 
+  };
   contents:{
     singleColumnBrowseResultsRenderer:{
       tabs:{
@@ -953,7 +960,7 @@ artistId:string):Artist =>{
   } catch (e) {
     console.error("Couldn't get artist description", e)
   }
-  
+
   const thumbnails:any[] = [];
   try {
     const thumbnailArray = body.header.musicImmersiveHeaderRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails
@@ -982,7 +989,7 @@ artistId:string):Artist =>{
         if(shelf.musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer.title.runs[0].navigationEndpoint?.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.album)
           shelf.musicCarouselShelfRenderer.contents.forEach(item=>{
             const parsedItem = parseArtistsAlbumItem(item)
-            if(parsedItem.type === AlbumType.single) 
+            if(parsedItem.type === AlbumType.single)
               singles.push(parsedItem);
             else
               albums.push(parsedItem);
