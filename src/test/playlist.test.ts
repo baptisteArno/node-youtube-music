@@ -1,4 +1,5 @@
-import { listMusicsFromPlaylist, searchPlaylists } from '../src';
+import { listMusicsFromPlaylist } from '../listMusicsFromPlaylist';
+import { searchPlaylists } from '../searchPlaylists';
 
 test('Search for Jazz playlists and the first one should return a list of results', async () => {
   const query = 'jazz';
@@ -8,7 +9,9 @@ test('Search for Jazz playlists and the first one should return a list of result
   expect(results.length).toBeGreaterThan(1);
   const firstPlaylist = results.shift();
   expect(firstPlaylist).toBeDefined();
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const songsResult = await listMusicsFromPlaylist(results[0].playlistId!);
+  expect(firstPlaylist?.playlistId).toBeDefined();
+  const playlistId = results[0].playlistId;
+  expect(playlistId).toBeDefined();
+  const songsResult = await listMusicsFromPlaylist(playlistId ?? '');
   expect(songsResult.length).toBeGreaterThan(1);
 });

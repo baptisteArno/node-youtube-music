@@ -1,12 +1,24 @@
 {
   "compilerOptions": {
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "downlevelIteration": true,
     "outDir": "dist",
     "allowJs": true,
     "target": "ES6",
-    "moduleResolution": "Node",
-    "module": "commonjs",
-    "declaration": true,
-    "strict": true
+    "module": "commonjs"
   },
-  "include": ["src/**/*", "examples/**/*", "test/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".eslintrc.js", "tsup.config.js"]
 }

@@ -1,4 +1,5 @@
-import { listMusicsFromAlbum, searchAlbums } from '../src';
+import { listMusicsFromAlbum } from '../listMusicsFromAlbum';
+import { searchAlbums } from '../searchAlbums';
 
 test('Search for Heaven & Hell album, pick first and get song list', async () => {
   const query = 'Heaven & Hell';
@@ -7,7 +8,8 @@ test('Search for Heaven & Hell album, pick first and get song list', async () =>
   expect(results.length).toBeGreaterThan(1);
   const firstAlbum = results.shift();
   expect(firstAlbum).toBeDefined();
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const songsResult = await listMusicsFromAlbum(results[0].albumId!);
+  const albumId = results[0].albumId;
+  expect(albumId).toBeDefined();
+  const songsResult = await listMusicsFromAlbum(albumId ?? '');
   expect(songsResult.length).toBeGreaterThan(1);
 });

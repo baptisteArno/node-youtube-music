@@ -1,4 +1,4 @@
-import { searchMusics } from '../src';
+import { searchMusics } from '../searchMusics';
 
 test('Search human readable queries should return a list of results', async () => {
   const queries = [

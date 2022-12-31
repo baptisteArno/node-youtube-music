@@ -1,4 +1,6 @@
-import { searchArtists, getArtist, searchMusics } from '../src';
+import { getArtist } from '../getArtist';
+import { searchArtists } from '../searchArtists';
+import { searchMusics } from '../searchMusics';
 
 test('Search for Dua Lipa and get more data', async () => {
   const query = 'Dua Lipa';
@@ -7,7 +9,7 @@ test('Search for Dua Lipa and get more data', async () => {
   expect(results.length).toBeGreaterThanOrEqual(1);
   const firstResult = results[0];
   expect(firstResult).toBeDefined();
-  const data = await getArtist(firstResult.artistId!);
+  const data = await getArtist(firstResult.artistId ?? '');
   expect(data).toBeDefined();
   expect(data.suggestedArtists?.length).toBeGreaterThanOrEqual(1);
   expect(data.albums?.length).toBeGreaterThanOrEqual(1);
