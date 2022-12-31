@@ -9,7 +9,7 @@ export const parseSearchPlaylistsBody = (
 ): PlaylistPreview[] => {
   const {
     contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
+  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
 
   const results: PlaylistPreview[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

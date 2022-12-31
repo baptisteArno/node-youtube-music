@@ -4,6 +4,7 @@ test('Search for Jazz playlists and the first one should return a list of result
   const query = 'jazz';
 
   const results = await searchPlaylists(query);
+  console.log('Results: ', results);
   expect(results.length).toBeGreaterThan(1);
   const firstPlaylist = results.shift();
   expect(firstPlaylist).toBeDefined();
