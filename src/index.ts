@@ -1,12 +1,12 @@
 export * from './models';
 
-export * from './searchMusics';
-export * from './searchAlbums';
-export * from './searchPlaylists';
-export * from './suggestions';
+export { searchMusics } from './searchMusics';
+export { searchAlbums } from './searchAlbums';
+export { searchPlaylists } from './searchPlaylists';
+export { getSuggestions } from './suggestions';
 
-export * from './listMusicsFromAlbum';
-export * from './listMusicsFromPlaylist';
+export { listMusicsFromAlbum } from './listMusicsFromAlbum';
+export { listMusicsFromPlaylist } from './listMusicsFromPlaylist';
 
-export * from './searchArtists';
-export * from  './getArtist';
+export { searchArtists } from './searchArtists';
+export { getArtist } from './getArtist';

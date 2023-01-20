@@ -17,7 +17,6 @@
   </a>
 </p>
 
-
 ## Features
 
 - [x] Search
@@ -47,10 +46,44 @@ yarn add node-youtube-music
 
 ## How to use
 
+export { searchMusics } from './searchMusics';
+export { searchAlbums } from './searchAlbums';
+export { searchPlaylists } from './searchPlaylists';
+export { getSuggestions } from './suggestions';
+
+export { listMusicsFromAlbum } from './listMusicsFromAlbum';
+export { listMusicsFromPlaylist } from './listMusicsFromPlaylist';
+
+export { searchArtists } from './searchArtists';
+export { getArtist } from './getArtist';
+
 ```ts
-import * as ytMusic from 'node-youtube-music';
+import {
+  searchMusics,
+  searchAlbums,
+  searchPlaylists,
+  getSuggestions,
+  listMusicsFromAlbum,
+  listMusicsFromPlaylist,
+  searchArtists,
+  getArtist,
+} from 'node-youtube-music';
 
-const musics = await ytMusic.searchMusics('Never gonna give you up');
+const main = async () => {
+  const musics = await searchMusics('Never gonna give you up');
 
-const suggestions = ytMusic.getSuggestions(musics[0].youtubeId);
+  const albums = await searchAlbums('Human after all');
+
+  const playlists = await searchPlaylists('Jazz');
+
+  const suggestions = await getSuggestions(musics[0].youtubeId);
+
+  const albumSongs = await listMusicsFromAlbum(albums[0].albumId);
+
+  const playlistSongs = await listMusicsFromPlaylist(playlists[0].playlistId);
+
+  const artists = await searchArtists('Daft Punk');
+
+  const artist = await getArtist(artists[0].artistId);
+};
 ```
