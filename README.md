@@ -46,17 +46,6 @@ yarn add node-youtube-music
 
 ## How to use
 
-export { searchMusics } from './searchMusics';
-export { searchAlbums } from './searchAlbums';
-export { searchPlaylists } from './searchPlaylists';
-export { getSuggestions } from './suggestions';
-
-export { listMusicsFromAlbum } from './listMusicsFromAlbum';
-export { listMusicsFromPlaylist } from './listMusicsFromPlaylist';
-
-export { searchArtists } from './searchArtists';
-export { getArtist } from './getArtist';
-
 ```ts
 import {
   searchMusics,
@@ -69,21 +58,19 @@ import {
   getArtist,
 } from 'node-youtube-music';
 
-const main = async () => {
-  const musics = await searchMusics('Never gonna give you up');
+const musics = await searchMusics('Never gonna give you up');
 
-  const albums = await searchAlbums('Human after all');
+const albums = await searchAlbums('Human after all');
 
-  const playlists = await searchPlaylists('Jazz');
+const playlists = await searchPlaylists('Jazz');
 
-  const suggestions = await getSuggestions(musics[0].youtubeId);
+const suggestions = await getSuggestions(musics[0].youtubeId);
 
-  const albumSongs = await listMusicsFromAlbum(albums[0].albumId);
+const albumSongs = await listMusicsFromAlbum(albums[0].albumId);
 
-  const playlistSongs = await listMusicsFromPlaylist(playlists[0].playlistId);
+const playlistSongs = await listMusicsFromPlaylist(playlists[0].playlistId);
 
-  const artists = await searchArtists('Daft Punk');
+const artists = await searchArtists('Daft Punk');
 
-  const artist = await getArtist(artists[0].artistId);
-};
+const artist = await getArtist(artists[0].artistId);
 ```
