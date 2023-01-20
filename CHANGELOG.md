@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="0.9.1"></a>
+## 0.9.1 (2023-01-20)
+
+### Miscellaneous
+
+- 🧑‍💻 Improve library exports [[4524fa4](https://github.com/baptisteArno/node-youtube-music/commit/4524fa4a9e9c6c1830bd0f7077ef21511f34c5d8)]
+
+
 <a name="0.9.0"></a>
 ## 0.9.0 (2022-12-31)
 
