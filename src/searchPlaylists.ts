@@ -1,15 +1,15 @@
 import got from 'got';
-import context from './context';
-import { PlaylistPreview } from './models';
-import { parsePlaylistItem } from './parsers';
+import context from './context.js';
+import { PlaylistPreview } from './models.js';
+import { parsePlaylistItem } from './parsers.js';
 
 export const parseSearchPlaylistsBody = (
   body: any,
   onlyOfficialPlaylists: boolean
 ): PlaylistPreview[] => {
-  const {
-    contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
+  const { contents } =
+    body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
+      .musicShelfRenderer;
 
   const results: PlaylistPreview[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

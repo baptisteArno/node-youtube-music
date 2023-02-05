@@ -1,7 +1,7 @@
 import got from 'got';
-import context from './context';
-import { MusicVideo } from './models';
-import { parseMusicInPlaylistItem } from './parsers';
+import context from './context.js';
+import { MusicVideo } from './models.js';
+import { parseMusicInPlaylistItem } from './parsers.js';
 
 export const parseListMusicsFromPlaylistBody = (body: {
   contents: {
@@ -18,9 +18,9 @@ export const parseListMusicsFromPlaylistBody = (body: {
     };
   };
 }): MusicVideo[] => {
-  const {
-    contents,
-  } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
+  const { contents } =
+    body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
+      .sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
 
   const results: MusicVideo[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

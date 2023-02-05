@@ -1,9 +1,8 @@
 import got from 'got';
-import context from './context';
-import { Artist } from './models';
-import { parseArtistData } from './parsers';
+import context from './context.js';
+import { Artist } from './models.js';
+import { parseArtistData } from './parsers.js';
 
-// eslint-disable-next-line import/prefer-default-export
 export async function getArtist(
   artistId: string,
   options?: {
@@ -31,6 +30,6 @@ export async function getArtist(
     return parseArtistData(JSON.parse(response.body), artistId);
   } catch (e) {
     console.error(e);
-    return {}
+    return {};
   }
 }

@@ -1,5 +1,6 @@
-import { listMusicsFromPlaylist } from '../listMusicsFromPlaylist';
-import { searchPlaylists } from '../searchPlaylists';
+import { test, expect } from 'vitest';
+import { listMusicsFromPlaylist } from '../listMusicsFromPlaylist.js';
+import { searchPlaylists } from '../searchPlaylists.js';
 
 test('Search for Jazz playlists and the first one should return a list of results', async () => {
   const query = 'jazz';

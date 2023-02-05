@@ -1,4 +1,12 @@
-import { MusicVideo, PlaylistPreview, AlbumPreview, Artist, ArtistPreview, PageType, AlbumType } from './models';
+import {
+  MusicVideo,
+  PlaylistPreview,
+  AlbumPreview,
+  Artist,
+  ArtistPreview,
+  PageType,
+  AlbumType,
+} from './models.js';
 
 const explicitBadgeText = 'MUSIC_EXPLICIT_BADGE';
 
@@ -11,8 +19,8 @@ const parseDuration = (durationLabel: string): number => {
     : parseInt(durationList[0], 10) * 60 + parseInt(durationList[1], 10);
 };
 
-const getAlbumType = (typeText:string):AlbumType =>{
-  switch(typeText){
+const getAlbumType = (typeText: string): AlbumType => {
+  switch (typeText) {
     case AlbumType.album:
       return AlbumType.album;
     case AlbumType.ep:
@@ -20,24 +28,33 @@ const getAlbumType = (typeText:string):AlbumType =>{
     default:
       return AlbumType.single;
   }
-}
+};
 // Detects multiple artists of the MusicVideo
-export const listArtists = (data: any[]): {name:string; id?:string}[] => {
-  const artists:{name:string; id?:string}[] = [];
-  data.forEach(item =>{
-    if(item.navigationEndpoint && item.navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.artist) {
-      artists.push({name:item.text, id: item.navigationEndpoint.browseEndpoint.browseId})
+export const listArtists = (data: any[]): { name: string; id?: string }[] => {
+  const artists: { name: string; id?: string }[] = [];
+  data.forEach((item) => {
+    if (
+      item.navigationEndpoint &&
+      item.navigationEndpoint.browseEndpoint
+        .browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig
+        .pageType === PageType.artist
+    ) {
+      artists.push({
+        name: item.text,
+        id: item.navigationEndpoint.browseEndpoint.browseId,
+      });
     }
-  })
-  if(artists.length === 0){
-    const delimiterIndex = data.findIndex(item => item.text === ' • ');
-    if(delimiterIndex !== -1){
-      data.filter((item, index) => index < delimiterIndex && item.name !== ' & ')
-          .forEach(item => artists.push({name:item.text}))
+  });
+  if (artists.length === 0) {
+    const delimiterIndex = data.findIndex((item) => item.text === ' • ');
+    if (delimiterIndex !== -1) {
+      data
+        .filter((item, index) => index < delimiterIndex && item.name !== ' & ')
+        .forEach((item) => artists.push({ name: item.text }));
     }
   }
   return artists;
-}
+};
 
 export const parseMusicItem = (content: {
   musicResponsiveListItemRenderer: {
@@ -46,7 +63,10 @@ export const parseMusicItem = (content: {
         text: {
           runs: {
             text: string;
-            navigationEndpoint: { watchEndpoint: { videoId: string }, browseId:string; };
+            navigationEndpoint: {
+              watchEndpoint: { videoId: string };
+              browseId: string;
+            };
           }[];
         };
       };
@@ -86,36 +106,43 @@ export const parseMusicItem = (content: {
 
   let artists;
   try {
-    artists = listArtists(content.musicResponsiveListItemRenderer.flexColumns[1]
-      .musicResponsiveListItemFlexColumnRenderer.text.runs)
+    artists = listArtists(
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs
+    );
   } catch (err) {
     console.log("Couldn't parse artist", err);
   }
 
   let album;
   try {
-    const { length } = content.musicResponsiveListItemRenderer.flexColumns[1]
-    .musicResponsiveListItemFlexColumnRenderer.text.runs
+    const { length } =
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs;
     album =
       content.musicResponsiveListItemRenderer.flexColumns[1]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[length-3].text;
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[length - 3].text;
   } catch (err) {
     console.log("Couldn't parse album", err);
   }
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (err) {
     console.log("Couldn't parse thumbnailUrl", err);
   }
 
   let duration;
   try {
-    const label = content.musicResponsiveListItemRenderer.flexColumns[1]
-    .musicResponsiveListItemFlexColumnRenderer.text.runs[content.musicResponsiveListItemRenderer.flexColumns[1]
-    .musicResponsiveListItemFlexColumnRenderer.text.runs.length-1].text
+    const label =
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[
+        content.musicResponsiveListItemRenderer.flexColumns[1]
+          .musicResponsiveListItemFlexColumnRenderer.text.runs.length - 1
+      ].text;
     duration = {
       label,
       totalSeconds: parseDuration(label),
@@ -149,7 +176,7 @@ export const parseSuggestionItem = (content: {
     longBylineText: { runs: { text: string }[] };
     thumbnail: { thumbnails: { url: string }[] };
     lengthText: { runs: { text: string }[] };
-    badges:{ musicInlineBadgeRenderer: { icon: { iconType: string; } } }[];
+    badges: { musicInlineBadgeRenderer: { icon: { iconType: string } } }[];
   };
 }): MusicVideo | null => {
   let youtubeId;
@@ -170,7 +197,9 @@ export const parseSuggestionItem = (content: {
 
   let artists;
   try {
-    artists = listArtists(content.playlistPanelVideoRenderer.longBylineText.runs);
+    artists = listArtists(
+      content.playlistPanelVideoRenderer.longBylineText.runs
+    );
   } catch (err) {
     console.log("Couldn't parse artist", err);
   }
@@ -184,15 +213,17 @@ export const parseSuggestionItem = (content: {
 
   let isExplicit;
   try {
-    isExplicit = content.playlistPanelVideoRenderer.badges[0].musicInlineBadgeRenderer.icon.iconType === "MUSIC_EXPLICIT_BADGE"
+    isExplicit =
+      content.playlistPanelVideoRenderer.badges[0].musicInlineBadgeRenderer.icon
+        .iconType === 'MUSIC_EXPLICIT_BADGE';
   } catch (err) {
-    isExplicit = false
+    isExplicit = false;
   }
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()?.url;
   } catch (err) {
     console.log("Couldn't parse thumbnailUrl", err);
   }
@@ -277,8 +308,9 @@ export const parsePlaylistItem = (
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (err) {
     console.log("Couldn't parse thumbnailUrl", err);
   }
@@ -345,8 +377,10 @@ export const parseMusicInPlaylistItem = (content: {
 
   let artists;
   try {
-    artists = listArtists(content.musicResponsiveListItemRenderer.flexColumns[1]
-      .musicResponsiveListItemFlexColumnRenderer.text.runs);
+    artists = listArtists(
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs
+    );
   } catch (err) {
     console.log("Couldn't parse artist", err);
   }
@@ -362,8 +396,9 @@ export const parseMusicInPlaylistItem = (content: {
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (err) {
     console.log("Couldn't parse thumbnailUrl", err);
   }
@@ -431,8 +466,8 @@ export const parseAlbumItem = (content: {
         browseEndpointContextSupportedConfigs: {
           browseEndpointContextMusicConfig: {
             pageType: string;
-          }
-        }
+          };
+        };
       };
     };
     badges: {
@@ -464,15 +499,19 @@ export const parseAlbumItem = (content: {
 
   let type;
   try {
-    type = getAlbumType(content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text)
+    type = getAlbumType(
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+    );
   } catch (err) {
     console.error("Couldn't parse album type", err);
   }
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (err) {
     console.error("Couldn't parse thumbnailUrl", err);
   }
@@ -563,8 +602,9 @@ export const parseAlbumHeader = (content: {
   }
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicDetailHeaderRenderer.thumbnail.croppedSquareThumbnailRenderer.thumbnail.thumbnails.pop()
-      ?.url;
+    thumbnailUrl =
+      content.musicDetailHeaderRenderer.thumbnail.croppedSquareThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (err) {
     console.error("Couldn't parse thumbnailUrl from album header", err);
   }
@@ -628,12 +668,24 @@ export const parseMusicInAlbumItem = (content: {
     console.log("Couldn't parse title", err);
   }
 
-  const artists:{name:string;id?:string}[] = [];
+  const artists: { name: string; id?: string }[] = [];
   try {
-    if(content.musicResponsiveListItemRenderer.flexColumns[1]?.musicResponsiveListItemFlexColumnRenderer.text.runs)
-    for(let i=0; i<content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs.length; i+=2){
-      artists.push({name:content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[i].text})
-    }
+    if (
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        ?.musicResponsiveListItemFlexColumnRenderer.text.runs
+    )
+      for (
+        let i = 0;
+        i <
+        content.musicResponsiveListItemRenderer.flexColumns[1]
+          .musicResponsiveListItemFlexColumnRenderer.text.runs.length;
+        i += 2
+      ) {
+        artists.push({
+          name: content.musicResponsiveListItemRenderer.flexColumns[1]
+            .musicResponsiveListItemFlexColumnRenderer.text.runs[i].text,
+        });
+      }
   } catch (err) {
     console.log("Couldn't parse artists", err);
   }
@@ -666,89 +718,95 @@ export const parseMusicInAlbumItem = (content: {
     artists,
     title,
     duration,
-    isExplicit
-  }
-}
+    isExplicit,
+  };
+};
 
-export const parseArtistsAlbumItem = (item:{
-  musicTwoRowItemRenderer:{
-    title:{
-      runs:{
-        text:string;
-        navigationEndpoint:{
-          browseEndpoint:{
-            browseId:string;
+export const parseArtistsAlbumItem = (item: {
+  musicTwoRowItemRenderer: {
+    title: {
+      runs: {
+        text: string;
+        navigationEndpoint: {
+          browseEndpoint: {
+            browseId: string;
             browseEndpointContextSupportedConfigs: {
               browseEndpointContextMusicConfig: {
                 pageType: string;
-              }
-            }
-          }
+              };
+            };
+          };
         };
-      }[]
+      }[];
     };
-    subtitle:{
-      runs:{
-        text:string;
-      }[]
+    subtitle: {
+      runs: {
+        text: string;
+      }[];
     };
-    thumbnailRenderer:{
-      musicThumbnailRenderer:{
-        thumbnail:{
-          thumbnails:{
-            url:string;
-          }[]
-        }
-      }
+    thumbnailRenderer: {
+      musicThumbnailRenderer: {
+        thumbnail: {
+          thumbnails: {
+            url: string;
+          }[];
+        };
+      };
     };
-    subtitleBadges:{
-      musicInlineBadgeRenderer:{
-        icon:{
-          iconType:string;
-          }
-      }
-    }[]
+    subtitleBadges: {
+      musicInlineBadgeRenderer: {
+        icon: {
+          iconType: string;
+        };
+      };
+    }[];
   };
-}):AlbumPreview => {
+}): AlbumPreview => {
   let title;
   try {
-    title = item.musicTwoRowItemRenderer.title.runs[0].text
+    title = item.musicTwoRowItemRenderer.title.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get title", e)
+    console.error("Couldn't get title", e);
   }
 
   let type;
   try {
-    type = getAlbumType(item.musicTwoRowItemRenderer.subtitle.runs[0].text)
+    type = getAlbumType(item.musicTwoRowItemRenderer.subtitle.runs[0].text);
   } catch (e) {
-    console.error("Couldn't get album type", e)
+    console.error("Couldn't get album type", e);
   }
 
   let albumId;
   try {
-    albumId = item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseId
+    albumId =
+      item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint
+        .browseEndpoint.browseId;
   } catch (e) {
-    console.error("Couldn't get albumId", e)
+    console.error("Couldn't get albumId", e);
   }
 
   let year;
   try {
-    year = item.musicTwoRowItemRenderer.subtitle.runs.pop()?.text
+    year = item.musicTwoRowItemRenderer.subtitle.runs.pop()?.text;
   } catch (e) {
-    console.error("Couldn't get year", e)
+    console.error("Couldn't get year", e);
   }
 
   let isExplicit;
   try {
-    isExplicit = item.musicTwoRowItemRenderer.subtitleBadges[0].musicInlineBadgeRenderer.icon.iconType === explicitBadgeText;
+    isExplicit =
+      item.musicTwoRowItemRenderer.subtitleBadges[0].musicInlineBadgeRenderer
+        .icon.iconType === explicitBadgeText;
   } catch (e) {
-    isExplicit = false
+    isExplicit = false;
   }
   let thumbnailUrl;
   try {
-    thumbnailUrl = item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.shift()?.url
+    thumbnailUrl =
+      item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.shift()
+        ?.url;
   } catch (e) {
-    console.error("Couldn't get thumbnailUrl", e)
+    console.error("Couldn't get thumbnailUrl", e);
   }
   return {
     title,
@@ -756,67 +814,71 @@ export const parseArtistsAlbumItem = (item:{
     albumId,
     year,
     thumbnailUrl,
-    isExplicit
-  }
-}
+    isExplicit,
+  };
+};
 
 const parseArtistsSuggestionsItem = (item: {
-  musicTwoRowItemRenderer:{
-    thumbnailRenderer:{
-      musicThumbnailRenderer:{
-        thumbnail:{
-          thumbnails:{
-            url:string;
+  musicTwoRowItemRenderer: {
+    thumbnailRenderer: {
+      musicThumbnailRenderer: {
+        thumbnail: {
+          thumbnails: {
+            url: string;
           }[];
         };
       };
     };
-    title:{
-      runs:{
-        text:string;
-        navigationEndpoint:{
-          browseEndpoint:{
-            browseId:string;
-          }
-        }
+    title: {
+      runs: {
+        text: string;
+        navigationEndpoint: {
+          browseEndpoint: {
+            browseId: string;
+          };
+        };
       }[];
     };
-    subtitle:{
-      runs:{
-        text:string;
-      }[]
+    subtitle: {
+      runs: {
+        text: string;
+      }[];
     };
-}}):ArtistPreview => {
+  };
+}): ArtistPreview => {
   let artistId;
   try {
-    artistId = item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseId;
+    artistId =
+      item.musicTwoRowItemRenderer.title.runs[0].navigationEndpoint
+        .browseEndpoint.browseId;
   } catch (e) {
-    console.error("Couldn't get artistId",e)
+    console.error("Couldn't get artistId", e);
   }
 
   let name;
   try {
     name = item.musicTwoRowItemRenderer.title.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get name", e)
+    console.error("Couldn't get name", e);
   }
 
   let subscribers;
   try {
     subscribers = item.musicTwoRowItemRenderer.subtitle.runs[0].text;
-    const subscribersArray = subscribers.split(" ")
+    const subscribersArray = subscribers.split(' ');
     subscribersArray.pop();
-    subscribers = subscribersArray.join(" ")
+    subscribers = subscribersArray.join(' ');
   } catch (e) {
     console.error("Couldn't get subscribers", e);
   }
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url;
+    thumbnailUrl =
+      item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (e) {
     console.error("Couldn't get thumbnailUrl", e);
-
   }
   return {
     artistId,
@@ -824,192 +886,210 @@ const parseArtistsSuggestionsItem = (item: {
     subscribers,
     thumbnailUrl,
   };
-}
+};
 
-
-export const parseArtistData = (body:{
-  header:{
-    musicImmersiveHeaderRenderer:{
-      title:{
-        runs:{
-          text:string;
-        }[];
-      };
-      description:{
-        runs:{
-          text:string;
-        }[];
-      };
-      thumbnail:{
-        musicThumbnailRenderer:{
-          thumbnail:{
-            thumbnails:any[];
+export const parseArtistData = (
+  body: {
+    header: {
+      musicImmersiveHeaderRenderer: {
+        title: {
+          runs: {
+            text: string;
+          }[];
+        };
+        description: {
+          runs: {
+            text: string;
+          }[];
+        };
+        thumbnail: {
+          musicThumbnailRenderer: {
+            thumbnail: {
+              thumbnails: any[];
+            };
+          };
+        };
+        subscriptionButton: {
+          subscribeButtonRenderer: {
+            subscriberCountWithSubscribeText: {
+              runs: {
+                text: string;
+              }[];
+            };
           };
         };
       };
-      subscriptionButton:{
-        subscribeButtonRenderer:{
-          subscriberCountWithSubscribeText:{
-            runs:{
-              text:string;
-            }[]
-          }
-        }
-      }
-    }
-  };
-  contents:{
-    singleColumnBrowseResultsRenderer:{
-      tabs:{
-        tabRenderer: {
-          content: {
-            sectionListRenderer: {
-              contents:{
-                musicShelfRenderer:{
-                  title:{
-                    runs:{
-                      text:string;
-                      navigationEndpoint:{
-                        browseEndpoint:{
-                          browseId:string;
-                          browseEndpointContextSupportedConfigs: {
-                            browseEndpointContextMusicConfig: {
-                              pageType: string;
-                            }
-                          }
-                        }
-                      }
-                    }[]
-                  }
-                };
-                musicCarouselShelfRenderer:{
-                  header:{
-                    musicCarouselShelfBasicHeaderRenderer:{
-                      moreContentButton: {
-                        buttonRenderer: {
-                          navigationEndpoint: {
-                            browseEndpoint: {
-                              browseId: string;
-                              params: string;
-                            }
-                          },
-                        }
-                      },
-                    }
-                  }
-                  contents:{
-                    musicTwoRowItemRenderer:{
-                      title:{
-                        runs:{
-                          text:string;
-                          navigationEndpoint:{
-                            browseEndpoint:{
-                              browseId:string;
-                              browseEndpointContextSupportedConfigs: {
-                                browseEndpointContextMusicConfig: {
-                                  pageType: string;
-                                }
-                              }
-                            }
+    };
+    contents: {
+      singleColumnBrowseResultsRenderer: {
+        tabs: {
+          tabRenderer: {
+            content: {
+              sectionListRenderer: {
+                contents: {
+                  musicShelfRenderer: {
+                    title: {
+                      runs: {
+                        text: string;
+                        navigationEndpoint: {
+                          browseEndpoint: {
+                            browseId: string;
+                            browseEndpointContextSupportedConfigs: {
+                              browseEndpointContextMusicConfig: {
+                                pageType: string;
+                              };
+                            };
+                          };
+                        };
+                      }[];
+                    };
+                  };
+                  musicCarouselShelfRenderer: {
+                    header: {
+                      musicCarouselShelfBasicHeaderRenderer: {
+                        moreContentButton: {
+                          buttonRenderer: {
+                            navigationEndpoint: {
+                              browseEndpoint: {
+                                browseId: string;
+                                params: string;
+                              };
+                            };
+                          };
+                        };
+                      };
+                    };
+                    contents: {
+                      musicTwoRowItemRenderer: {
+                        title: {
+                          runs: {
+                            text: string;
+                            navigationEndpoint: {
+                              browseEndpoint: {
+                                browseId: string;
+                                browseEndpointContextSupportedConfigs: {
+                                  browseEndpointContextMusicConfig: {
+                                    pageType: string;
+                                  };
+                                };
+                              };
+                            };
+                          }[];
+                        };
+                        subtitle: {
+                          runs: {
+                            text: string;
+                          }[];
+                        };
+                        thumbnailRenderer: {
+                          musicThumbnailRenderer: {
+                            thumbnail: {
+                              thumbnails: {
+                                url: string;
+                              }[];
+                            };
+                          };
+                        };
+                        subtitleBadges: {
+                          musicInlineBadgeRenderer: {
+                            icon: {
+                              iconType: string;
+                            };
                           };
                         }[];
                       };
-                      subtitle:{
-                        runs:{
-                          text:string;
-                        }[]
-                      };
-                      thumbnailRenderer:{
-                        musicThumbnailRenderer:{
-                          thumbnail:{
-                            thumbnails:{
-                              url:string;
-                            }[]
-                          }
-                        }
-                      };
-                      subtitleBadges:{
-                        musicInlineBadgeRenderer:{
-                          icon:{
-                            iconType:string;
-                          }
-                        }
-                      }[]
-                    };
-                  }[]
-                };
-              }[]
-            }
-          }
-        }
-      }[]
-    }
-  }
-},
-artistId:string):Artist =>{
+                    }[];
+                  };
+                }[];
+              };
+            };
+          };
+        }[];
+      };
+    };
+  },
+  artistId: string
+): Artist => {
   let name;
   try {
-    name = body.header.musicImmersiveHeaderRenderer.title.runs[0].text
+    name = body.header.musicImmersiveHeaderRenderer.title.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get artist name", e)
+    console.error("Couldn't get artist name", e);
   }
 
   let description;
   try {
-    description = body.header.musicImmersiveHeaderRenderer.description.runs[0].text
+    description =
+      body.header.musicImmersiveHeaderRenderer.description.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get artist description", e)
+    console.error("Couldn't get artist description", e);
   }
 
-  const thumbnails:any[] = [];
+  const thumbnails: any[] = [];
   try {
-    const thumbnailArray = body.header.musicImmersiveHeaderRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails
-    thumbnailArray.forEach((e:any)=>{
-      thumbnails.push(e)
-    })
+    const thumbnailArray =
+      body.header.musicImmersiveHeaderRenderer.thumbnail.musicThumbnailRenderer
+        .thumbnail.thumbnails;
+    thumbnailArray.forEach((e: any) => {
+      thumbnails.push(e);
+    });
   } catch (e) {
-    console.error("Couldn't get artist thumbnails", e)
+    console.error("Couldn't get artist thumbnails", e);
   }
 
   let songsPlaylistId;
   try {
-    songsPlaylistId = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseId
+    songsPlaylistId =
+      body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
+        .content.sectionListRenderer.contents[0].musicShelfRenderer.title
+        .runs[0].navigationEndpoint.browseEndpoint.browseId;
   } catch (e) {
-    console.error("Couldn't get artist songPlaylistId", e)
+    console.error("Couldn't get artist songPlaylistId", e);
   }
 
-
-  const albums:AlbumPreview[] = [];
-  const singles:AlbumPreview[] = [];
+  const albums: AlbumPreview[] = [];
+  const singles: AlbumPreview[] = [];
   try {
-    const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer;
+    const { contents } =
+      body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
+        .content.sectionListRenderer;
     // eslint-disable-next-line  no-restricted-syntax
-    for(const shelf of contents){
-      if(shelf.musicCarouselShelfRenderer?.contents){
-        if(shelf.musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer.title.runs[0].navigationEndpoint?.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.album)
-          shelf.musicCarouselShelfRenderer.contents.forEach(item=>{
-            const parsedItem = parseArtistsAlbumItem(item)
-            if(parsedItem.type === AlbumType.single)
-              singles.push(parsedItem);
-            else
-              albums.push(parsedItem);
-          })
+    for (const shelf of contents) {
+      if (shelf.musicCarouselShelfRenderer?.contents) {
+        if (
+          shelf.musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer
+            .title.runs[0].navigationEndpoint?.browseEndpoint
+            .browseEndpointContextSupportedConfigs
+            .browseEndpointContextMusicConfig.pageType === PageType.album
+        )
+          shelf.musicCarouselShelfRenderer.contents.forEach((item) => {
+            const parsedItem = parseArtistsAlbumItem(item);
+            if (parsedItem.type === AlbumType.single) singles.push(parsedItem);
+            else albums.push(parsedItem);
+          });
       }
     }
   } catch (e) {
-    console.error("Couldn't get albums", e)
+    console.error("Couldn't get albums", e);
   }
 
-  const suggestedArtists:ArtistPreview[] = [];
+  const suggestedArtists: ArtistPreview[] = [];
   try {
-    const {contents} = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer;
+    const { contents } =
+      body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
+        .content.sectionListRenderer;
     // eslint-disable-next-line  no-restricted-syntax
-    for(let i=contents.length-1; i>=0; i-=1){
-      if(contents[i].musicCarouselShelfRenderer) {
-        if(contents[i].musicCarouselShelfRenderer.contents[0].musicTwoRowItemRenderer.title.runs[0].navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType === PageType.artist)
-          contents[i].musicCarouselShelfRenderer.contents.forEach(v=>{
+    for (let i = contents.length - 1; i >= 0; i -= 1) {
+      if (contents[i].musicCarouselShelfRenderer) {
+        if (
+          contents[i].musicCarouselShelfRenderer.contents[0]
+            .musicTwoRowItemRenderer.title.runs[0].navigationEndpoint
+            .browseEndpoint.browseEndpointContextSupportedConfigs
+            .browseEndpointContextMusicConfig.pageType === PageType.artist
+        )
+          contents[i].musicCarouselShelfRenderer.contents.forEach((v) => {
             suggestedArtists.push(parseArtistsSuggestionsItem(v));
-          })
+          });
         break;
       }
     }
@@ -1019,9 +1099,11 @@ artistId:string):Artist =>{
 
   let subscribers;
   try {
-    subscribers = body.header.musicImmersiveHeaderRenderer.subscriptionButton.subscribeButtonRenderer.subscriberCountWithSubscribeText.runs[0].text
+    subscribers =
+      body.header.musicImmersiveHeaderRenderer.subscriptionButton
+        .subscribeButtonRenderer.subscriberCountWithSubscribeText.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get subscribers", e)
+    console.error("Couldn't get subscribers", e);
   }
   return {
     artistId,
@@ -1032,68 +1114,76 @@ artistId:string):Artist =>{
     thumbnails,
     songsPlaylistId,
     suggestedArtists,
-    subscribers
-  }
-}
+    subscribers,
+  };
+};
 
 export const parseArtistSearchResult = (content: {
-  musicResponsiveListItemRenderer:{
-    thumbnail:{
-      musicThumbnailRenderer:{
-        thumbnail:{
-          thumbnails:{
-            url:string;
-          }[]
-        }
-      }
+  musicResponsiveListItemRenderer: {
+    thumbnail: {
+      musicThumbnailRenderer: {
+        thumbnail: {
+          thumbnails: {
+            url: string;
+          }[];
+        };
+      };
     };
-    flexColumns:{
-      musicResponsiveListItemFlexColumnRenderer:{
-        text:{
-          runs:{
-            text:string
-          }[]
-        }
-      }
+    flexColumns: {
+      musicResponsiveListItemFlexColumnRenderer: {
+        text: {
+          runs: {
+            text: string;
+          }[];
+        };
+      };
     }[];
-    navigationEndpoint:{
-      browseEndpoint:{
-        browseId:string;
-      }
-    }
-  }
-}):ArtistPreview | null => {
+    navigationEndpoint: {
+      browseEndpoint: {
+        browseId: string;
+      };
+    };
+  };
+}): ArtistPreview | null => {
   let name;
   try {
-    name = content.musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+    name =
+      content.musicResponsiveListItemRenderer.flexColumns[0]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
   } catch (e) {
-    console.error("Couldn't get name",e)
+    console.error("Couldn't get name", e);
   }
 
   let artistId;
   try {
-    artistId = content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint.browseId
+    artistId =
+      content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
+        .browseId;
   } catch (e) {
-    console.error("Couldn't get artistId",e)
+    console.error("Couldn't get artistId", e);
   }
 
   let thumbnailUrl;
   try {
-    thumbnailUrl = content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url
+    thumbnailUrl =
+      content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
+        ?.url;
   } catch (e) {
-    console.error("Couldn't get thumbnailUrl",e)
+    console.error("Couldn't get thumbnailUrl", e);
   }
 
   let subscribers;
   try {
-    subscribers = content.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+    subscribers =
+      content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[2].text;
   } catch (e) {
-    console.error("Couldn't get subscribers",e)
+    console.error("Couldn't get subscribers", e);
   }
   return {
     name,
     artistId,
     thumbnailUrl,
-    subscribers
-  }
-}
+    subscribers,
+  };
+};

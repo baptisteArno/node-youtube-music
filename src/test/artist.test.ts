@@ -1,6 +1,7 @@
-import { getArtist } from '../getArtist';
-import { searchArtists } from '../searchArtists';
-import { searchMusics } from '../searchMusics';
+import { test, expect } from 'vitest';
+import { getArtist } from '../getArtist.js';
+import { searchArtists } from '../searchArtists.js';
+import { searchMusics } from '../searchMusics.js';
 
 test('Search for Dua Lipa and get more data', async () => {
   const query = 'Dua Lipa';

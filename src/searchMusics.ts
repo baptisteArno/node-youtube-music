@@ -1,14 +1,14 @@
 import got from 'got';
-import { MusicVideo } from './models';
-import { parseMusicItem } from './parsers';
-import context from './context';
+import { MusicVideo } from './models.js';
+import { parseMusicItem } from './parsers.js';
+import context from './context.js';
 
 export const parseSearchMusicsBody = (body: {
   contents: any;
 }): MusicVideo[] => {
-  const {
-    contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
+  const { contents } =
+    body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
+      .musicShelfRenderer;
 
   const results: MusicVideo[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

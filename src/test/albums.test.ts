@@ -1,5 +1,6 @@
-import { listMusicsFromAlbum } from '../listMusicsFromAlbum';
-import { searchAlbums } from '../searchAlbums';
+import { test, expect } from 'vitest';
+import { listMusicsFromAlbum } from '../listMusicsFromAlbum.js';
+import { searchAlbums } from '../searchAlbums.js';
 
 test('Search for Heaven & Hell album, pick first and get song list', async () => {
   const query = 'Heaven & Hell';

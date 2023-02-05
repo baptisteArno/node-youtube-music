@@ -7,7 +7,6 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
@@ -17,8 +16,9 @@
     "outDir": "dist",
     "allowJs": true,
     "target": "ES6",
-    "module": "commonjs"
+    "module": "NodeNext",
+    "moduleResolution": "nodenext"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", ".eslintrc.js", "tsup.config.js"]
+  "exclude": ["node_modules"]
 }

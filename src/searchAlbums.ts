@@ -1,13 +1,13 @@
 import got from 'got';
-import context from './context';
-import { AlbumPreview } from './models';
-import { parseAlbumItem } from './parsers';
+import context from './context.js';
+import { AlbumPreview } from './models.js';
+import { parseAlbumItem } from './parsers.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseSearchAlbumsBody = (body: any): AlbumPreview[] => {
-  const {
-    contents,
-  } = body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop().musicShelfRenderer;
+  const { contents } =
+    body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
+      .musicShelfRenderer;
 
   const results: AlbumPreview[] = [];
 

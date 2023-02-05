@@ -1,13 +1,13 @@
 import got from 'got';
-import context from './context';
-import { MusicVideo } from './models';
-import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers';
+import context from './context.js';
+import { MusicVideo } from './models.js';
+import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
-  const {
-    contents,
-  } = body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer;
+  const { contents } =
+    body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
+      .sectionListRenderer.contents[0].musicShelfRenderer;
   const songs: MusicVideo[] = [];
   const { thumbnailUrl, artist, album } = parseAlbumHeader(body.header);
 
@@ -17,7 +17,7 @@ export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
       const song = parseMusicInAlbumItem(element);
       if (song) {
         song.album = album;
-        if(song.artists?.length === 0) song.artists = [{name:artist}]
+        if (song.artists?.length === 0) song.artists = [{ name: artist }];
         song.thumbnailUrl = thumbnailUrl;
         songs.push(song);
       }

@@ -1,4 +1,5 @@
-import { searchMusics } from '../searchMusics';
+import { test, expect } from 'vitest';
+import { searchMusics } from '../searchMusics.js';
 
 test('Search human readable queries should return a list of results', async () => {
   const queries = [
