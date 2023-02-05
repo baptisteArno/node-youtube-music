@@ -3,3 +3,5 @@
 dist
 
 response-example*.json
+
+.DS_Store

@@ -3,7 +3,6 @@
   "description": "Unofficial YouTube Music API for Node.js",
   "version": "0.9.1",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/baptisteArno/node-youtube-music",
   "publishConfig": {
