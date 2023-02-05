@@ -3,6 +3,9 @@
   "description": "Unofficial YouTube Music API for Node.js",
   "version": "0.10.0",
   "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "types": "dist/index.d.ts",
   "type": "module",
   "node": " >=14.13.1 || >=16.0.0",
