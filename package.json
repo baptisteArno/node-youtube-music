@@ -1,7 +1,7 @@
 {
   "name": "node-youtube-music",
   "description": "Unofficial YouTube Music API for Node.js",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "exports": "./dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",

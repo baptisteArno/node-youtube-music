@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="0.10.0"></a>
+## 0.10.0 (2023-02-05)
+
+### Changed
+
+- 🏗️ Convert to ES Module and use Vitest [[3ad6c19](https://github.com/baptisteArno/node-youtube-music/commit/3ad6c199f188b4e0d30beb7ac3b2d121b0c054ee)]
+- ⏪ Introduce back es build [[a3cf28f](https://github.com/baptisteArno/node-youtube-music/commit/a3cf28fcb8b75892a76283d113414f338305b05d)]
+
+
 <a name="0.9.2"></a>
 ## 0.9.2 (2023-02-05)
 
