@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="0.9.2"></a>
+## 0.9.2 (2023-02-05)
+
+### Removed
+
+- 🔥 Remove esm output [[9e09061](https://github.com/baptisteArno/node-youtube-music/commit/9e090616347a54b9b11880de1618cd471db612ca)]
+
+### Miscellaneous
+
+- 📝 Fix README example [[e593c46](https://github.com/baptisteArno/node-youtube-music/commit/e593c46c7ea5026d8ea3c59bf87f61cee87e1bd0)]
+
+
 <a name="0.9.1"></a>
 ## 0.9.1 (2023-01-20)
 
