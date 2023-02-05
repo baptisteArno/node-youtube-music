@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="0.10.1"></a>
+## 0.10.1 (2023-02-05)
+
+### Changed
+
+- 🔧 Add files in package.json [[df95a28](https://github.com/baptisteArno/node-youtube-music/commit/df95a28b763a04e5aedf0416b89bbcfd4f025cf4)]
+
+
 <a name="0.10.0"></a>
 ## 0.10.0 (2023-02-05)
 
