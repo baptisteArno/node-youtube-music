@@ -1,7 +1,7 @@
 {
   "name": "node-youtube-music",
   "description": "Unofficial YouTube Music API for Node.js",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "exports": "./dist/index.js",
   "files": [
     "dist"
@@ -17,7 +17,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsup --watch",
-    "build": "eslint src/**/* && tsup",
+    "build": "tsup",
     "test": "vitest",
     "generate-change-log": "pnpx gitmoji-changelog"
   },

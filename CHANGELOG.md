@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="0.10.2"></a>
+## 0.10.2 (2023-02-06)
+
+### Removed
+
+- 🔥 Remove logs and eslint [[d775871](https://github.com/baptisteArno/node-youtube-music/commit/d7758716d8edbfe1fb8ed409072d8d1447450c43)]
+
+
 <a name="0.10.1"></a>
 ## 0.10.1 (2023-02-05)
 
