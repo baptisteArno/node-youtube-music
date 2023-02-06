@@ -9,7 +9,7 @@ test('Search for Heaven & Hell album, pick first and get song list', async () =>
   expect(results.length).toBeGreaterThan(1);
   const firstAlbum = results.shift();
   expect(firstAlbum).toBeDefined();
-  const albumId = results[0].albumId;
+  const albumId = firstAlbum?.albumId;
   expect(albumId).toBeDefined();
   const songsResult = await listMusicsFromAlbum(albumId ?? '');
   expect(songsResult.length).toBeGreaterThan(1);

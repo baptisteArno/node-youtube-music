@@ -23,7 +23,7 @@ export const parseListMusicsFromPlaylistBody = (body: {
       .sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
 
   const results: MusicVideo[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   contents.forEach((content: any) => {
     try {
       const song = parseMusicInPlaylistItem(content);

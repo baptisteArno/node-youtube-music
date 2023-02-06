@@ -91,18 +91,14 @@ export const parseMusicItem = (content: {
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
-  } catch (err) {
-    console.log("Couldn't parse youtube id", err);
-  }
+  } catch (err) {}
 
   let title;
   try {
     title =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse title", err);
-  }
+  } catch (err) {}
 
   let artists;
   try {
@@ -110,9 +106,7 @@ export const parseMusicItem = (content: {
       content.musicResponsiveListItemRenderer.flexColumns[1]
         .musicResponsiveListItemFlexColumnRenderer.text.runs
     );
-  } catch (err) {
-    console.log("Couldn't parse artist", err);
-  }
+  } catch (err) {}
 
   let album;
   try {
@@ -122,18 +116,14 @@ export const parseMusicItem = (content: {
     album =
       content.musicResponsiveListItemRenderer.flexColumns[1]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[length - 3].text;
-  } catch (err) {
-    console.log("Couldn't parse album", err);
-  }
+  } catch (err) {}
 
   let thumbnailUrl;
   try {
     thumbnailUrl =
       content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
         ?.url;
-  } catch (err) {
-    console.log("Couldn't parse thumbnailUrl", err);
-  }
+  } catch (err) {}
 
   let duration;
   try {
@@ -147,9 +137,7 @@ export const parseMusicItem = (content: {
       label,
       totalSeconds: parseDuration(label),
     };
-  } catch (err) {
-    console.log("Couldn't parse duration", err);
-  }
+  } catch (err) {}
   let isExplicit;
   try {
     isExplicit =
@@ -184,32 +172,24 @@ export const parseSuggestionItem = (content: {
     youtubeId =
       content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
         .videoId;
-  } catch (err) {
-    console.log("Couldn't parse youtube id", err);
-  }
+  } catch (err) {}
 
   let title;
   try {
     title = content.playlistPanelVideoRenderer.title.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse title", err);
-  }
+  } catch (err) {}
 
   let artists;
   try {
     artists = listArtists(
       content.playlistPanelVideoRenderer.longBylineText.runs
     );
-  } catch (err) {
-    console.log("Couldn't parse artist", err);
-  }
+  } catch (err) {}
 
   let album;
   try {
     album = content.playlistPanelVideoRenderer.longBylineText.runs[2].text;
-  } catch (err) {
-    console.log("Couldn't parse album", err);
-  }
+  } catch (err) {}
 
   let isExplicit;
   try {
@@ -224,9 +204,7 @@ export const parseSuggestionItem = (content: {
   try {
     thumbnailUrl =
       content.playlistPanelVideoRenderer.thumbnail.thumbnails.pop()?.url;
-  } catch (err) {
-    console.log("Couldn't parse thumbnailUrl", err);
-  }
+  } catch (err) {}
 
   let duration;
   try {
@@ -236,9 +214,7 @@ export const parseSuggestionItem = (content: {
         content.playlistPanelVideoRenderer.lengthText.runs[0].text
       ),
     };
-  } catch (err) {
-    console.log("Couldn't parse duration", err);
-  }
+  } catch (err) {}
   return {
     youtubeId,
     title,
@@ -273,9 +249,7 @@ export const parsePlaylistItem = (
     playlistId =
       content.musicResponsiveListItemRenderer.navigationEndpoint.browseEndpoint
         .browseId;
-  } catch (err) {
-    console.log("Couldn't parse youtube id", err);
-  }
+  } catch (err) {}
   if (
     onlyOfficialPlaylists &&
     content.musicResponsiveListItemRenderer.flexColumns[1]
@@ -290,9 +264,7 @@ export const parsePlaylistItem = (
     title =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse title", err);
-  }
+  } catch (err) {}
 
   let totalSongs;
   try {
@@ -302,18 +274,14 @@ export const parsePlaylistItem = (
       )[0],
       10
     );
-  } catch (err) {
-    console.log("Couldn't parse artist", err);
-  }
+  } catch (err) {}
 
   let thumbnailUrl;
   try {
     thumbnailUrl =
       content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
         ?.url;
-  } catch (err) {
-    console.log("Couldn't parse thumbnailUrl", err);
-  }
+  } catch (err) {}
 
   return {
     playlistId,
@@ -362,18 +330,14 @@ export const parseMusicInPlaylistItem = (content: {
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
-  } catch (err) {
-    console.log("Couldn't parse youtube id", err);
-  }
+  } catch (err) {}
 
   let title;
   try {
     title =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse title", err);
-  }
+  } catch (err) {}
 
   let artists;
   try {
@@ -381,27 +345,21 @@ export const parseMusicInPlaylistItem = (content: {
       content.musicResponsiveListItemRenderer.flexColumns[1]
         .musicResponsiveListItemFlexColumnRenderer.text.runs
     );
-  } catch (err) {
-    console.log("Couldn't parse artist", err);
-  }
+  } catch (err) {}
 
   let album;
   try {
     album =
       content.musicResponsiveListItemRenderer.flexColumns[2]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse album", err);
-  }
+  } catch (err) {}
 
   let thumbnailUrl;
   try {
     thumbnailUrl =
       content.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()
         ?.url;
-  } catch (err) {
-    console.log("Couldn't parse thumbnailUrl", err);
-  }
+  } catch (err) {}
 
   let duration;
   try {
@@ -414,9 +372,7 @@ export const parseMusicInPlaylistItem = (content: {
           .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text
       ),
     };
-  } catch (err) {
-    console.log("Couldn't parse duration", err);
-  }
+  } catch (err) {}
 
   let isExplicit;
   try {
@@ -586,7 +542,6 @@ export const parseAlbumHeader = (content: {
       };
     };
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): any => {
   let artist;
   try {
@@ -655,18 +610,14 @@ export const parseMusicInAlbumItem = (content: {
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
-  } catch (err) {
-    console.log("Couldn't parse youtube id", err);
-  }
+  } catch (err) {}
 
   let title;
   try {
     title =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-  } catch (err) {
-    console.log("Couldn't parse title", err);
-  }
+  } catch (err) {}
 
   const artists: { name: string; id?: string }[] = [];
   try {
@@ -686,9 +637,7 @@ export const parseMusicInAlbumItem = (content: {
             .musicResponsiveListItemFlexColumnRenderer.text.runs[i].text,
         });
       }
-  } catch (err) {
-    console.log("Couldn't parse artists", err);
-  }
+  } catch (err) {}
 
   let duration;
   try {
@@ -701,9 +650,7 @@ export const parseMusicInAlbumItem = (content: {
           .musicResponsiveListItemFixedColumnRenderer.text.runs[0].text
       ),
     };
-  } catch (err) {
-    console.log("Couldn't parse duration", err);
-  }
+  } catch (err) {}
   let isExplicit;
   try {
     isExplicit =
@@ -1053,7 +1000,6 @@ export const parseArtistData = (
     const { contents } =
       body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
         .content.sectionListRenderer;
-    // eslint-disable-next-line  no-restricted-syntax
     for (const shelf of contents) {
       if (shelf.musicCarouselShelfRenderer?.contents) {
         if (
@@ -1078,7 +1024,6 @@ export const parseArtistData = (
     const { contents } =
       body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
         .content.sectionListRenderer;
-    // eslint-disable-next-line  no-restricted-syntax
     for (let i = contents.length - 1; i >= 0; i -= 1) {
       if (contents[i].musicCarouselShelfRenderer) {
         if (

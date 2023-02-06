@@ -28,7 +28,7 @@ export const parseGetSuggestionsBody = (body: {
       .musicQueueRenderer.content.playlistPanelRenderer;
 
   const results: MusicVideo[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   contents.forEach((content: any) => {
     try {
       const video = parseSuggestionItem(content);

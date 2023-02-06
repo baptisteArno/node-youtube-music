@@ -12,7 +12,7 @@ export const parseSearchPlaylistsBody = (
       .musicShelfRenderer;
 
   const results: PlaylistPreview[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   contents.forEach((content: any) => {
     try {
       const playlist = parsePlaylistItem(content, onlyOfficialPlaylists);

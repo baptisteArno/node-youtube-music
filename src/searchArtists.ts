@@ -3,14 +3,12 @@ import context from './context.js';
 import { ArtistPreview } from './models.js';
 import { parseArtistSearchResult } from './parsers.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseArtistsSearchBody = (body: any): ArtistPreview[] => {
   const { contents } =
     body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
       .musicShelfRenderer;
   const results: ArtistPreview[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((content: any) => {
     try {
       const artist = parseArtistSearchResult(content);

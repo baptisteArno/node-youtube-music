@@ -3,7 +3,6 @@ import context from './context.js';
 import { MusicVideo } from './models.js';
 import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
   const { contents } =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
@@ -11,7 +10,6 @@ export const parseListMusicsFromAlbumBody = (body: any): MusicVideo[] => {
   const songs: MusicVideo[] = [];
   const { thumbnailUrl, artist, album } = parseAlbumHeader(body.header);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents.forEach((element: any) => {
     try {
       const song = parseMusicInAlbumItem(element);

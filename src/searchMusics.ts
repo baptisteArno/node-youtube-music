@@ -11,7 +11,7 @@ export const parseSearchMusicsBody = (body: {
       .musicShelfRenderer;
 
   const results: MusicVideo[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   contents.forEach((content: any) => {
     try {
       const song = parseMusicItem(content);
