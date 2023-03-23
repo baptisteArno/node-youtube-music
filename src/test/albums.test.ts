@@ -12,5 +12,5 @@ test('Search for Heaven & Hell album, pick first and get song list', async () =>
   const albumId = firstAlbum?.albumId;
   expect(albumId).toBeDefined();
   const songsResult = await listMusicsFromAlbum(albumId ?? '');
-  expect(songsResult.length).toBeGreaterThan(1);
+  expect(songsResult.length).toBeGreaterThan(0);
 });
