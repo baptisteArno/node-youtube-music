@@ -7,9 +7,14 @@ export const parseSearchPlaylistsBody = (
   body: any,
   onlyOfficialPlaylists: boolean
 ): PlaylistPreview[] => {
-  const { contents } =
+  const contents =
     body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
-      .musicShelfRenderer;
+      .musicShelfRenderer?.contents;
+
+  if (!contents) {
+    return [];
+  }
+
 
   const results: PlaylistPreview[] = [];
 
