@@ -40,12 +40,18 @@ export const parseListMusicsFromPlaylistBody = (body: {
 export async function listMusicsFromPlaylist(
   playlistId: string
 ): Promise<MusicVideo[]> {
+  let browseId;
+
+  if (!playlistId.startsWith('VL')) {
+    browseId = 'VL' + playlistId;
+  }
+
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/browse?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
     {
       json: {
         ...context.body,
-        browseId: playlistId,
+        browseId,
       },
       headers: {
         'User-Agent':
