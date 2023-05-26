@@ -37,27 +37,35 @@ export const parseListMusicsFromPlaylistBody = (body: {
   return results;
 };
 
+
 export async function listMusicsFromPlaylist(
   playlistId: string
 ): Promise<MusicVideo[]> {
-  const response = await got.post(
-    'https://music.youtube.com/youtubei/v1/browse?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
-    {
-      json: {
-        ...context.body,
-        browseId: playlistId,
-      },
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-        origin: 'https://music.youtube.com',
-      },
-    }
-  );
+  let browseId;
+
+  if (!playlistId.startsWith('VL')) {
+    browseId = 'VL' + playlistId;
+  }
+
   try {
+    const response = await got.post(
+      'https://music.youtube.com/youtubei/v1/browse?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
+      {
+        json: {
+          ...context.body,
+          browseId,
+        },
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+          origin: 'https://music.youtube.com',
+        },
+      }
+    );
     return parseListMusicsFromPlaylistBody(JSON.parse(response.body));
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(`Error in listMusicsFromPlaylist: ${error}`);
     return [];
   }
 }
+
