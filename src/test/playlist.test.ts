@@ -10,8 +10,9 @@ test('Search for Jazz playlists and the first one should return a list of result
   const firstPlaylist = results.shift();
   expect(firstPlaylist).toBeDefined();
   expect(firstPlaylist?.playlistId).toBeDefined();
-  const playlistId = results[0].playlistId;
-  expect(playlistId).toBeDefined();
-  const songsResult = await listMusicsFromPlaylist(playlistId ?? '');
+  const songsResult = await listMusicsFromPlaylist(
+    firstPlaylist?.playlistId ?? ''
+  );
+  console.log(firstPlaylist?.playlistId);
   expect(songsResult.length).toBeGreaterThan(1);
 });
