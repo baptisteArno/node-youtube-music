@@ -10,7 +10,10 @@ export const parseListMusicsFromPlaylistBody = (body: {
         tabRenderer: {
           content: {
             sectionListRenderer: {
-              contents: { musicPlaylistShelfRenderer: { contents: [] } }[];
+              contents: {
+                musicPlaylistShelfRenderer?: { contents: [] };
+                musicCarouselShelfRenderer: { contents: [] };
+              }[];
             };
           };
         };
@@ -18,9 +21,11 @@ export const parseListMusicsFromPlaylistBody = (body: {
     };
   };
 }): MusicVideo[] => {
-  const { contents } =
+  const content =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
-      .sectionListRenderer.contents[0].musicPlaylistShelfRenderer;
+      .sectionListRenderer.contents[0];
+  const { contents } =
+    content.musicPlaylistShelfRenderer ?? content.musicCarouselShelfRenderer;
 
   const results: MusicVideo[] = [];
 
@@ -36,7 +41,6 @@ export const parseListMusicsFromPlaylistBody = (body: {
   });
   return results;
 };
-
 
 export async function listMusicsFromPlaylist(
   playlistId: string
@@ -68,4 +72,3 @@ export async function listMusicsFromPlaylist(
     return [];
   }
 }
-
