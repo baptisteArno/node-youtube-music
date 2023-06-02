@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="0.10.3"></a>
+## 0.10.3 (2023-06-02)
+
+### Added
+
+- 🔊 Debug playlist test failing on CI [[ff4edf1](https://github.com/baptisteArno/node-youtube-music/commit/ff4edf12b0a9de8274cd6530991aac370d01231f)]
+
+### Fixed
+
+- 🐛 Fix listMusiceFromPlaylist when the musics come from caroussel [[e892918](https://github.com/baptisteArno/node-youtube-music/commit/e892918b48be1a9458243cba313f3bc54e0f155a)]
+- 🐛 Fix test on list song from album [[bdd843e](https://github.com/baptisteArno/node-youtube-music/commit/bdd843e1948d87e600a9f70f5c4d6c305b70c3e4)]
+
+### Miscellaneous
+
+-  Merge pull request [#22](https://github.com/baptisteArno/node-youtube-music/issues/22) from to-dy/fix-listMusicsFromPlaylist-400-error [[5dd9111](https://github.com/baptisteArno/node-youtube-music/commit/5dd91118994a280dba6f39903b15571515e659f0)]
+-  fix(listMusicsFromPlaylist): catch and log errors in API call [[0134d5d](https://github.com/baptisteArno/node-youtube-music/commit/0134d5d10d9eb6f92718ab03e0d45e2529792059)]
+-  fix: listMusicsFromPlaylist bad request [#15](https://github.com/baptisteArno/node-youtube-music/issues/15) [[7ddaf82](https://github.com/baptisteArno/node-youtube-music/commit/7ddaf824b91fa764effa57f1b83215d5d2c9061c)]
+-  Fix destructuring crash for empty playlist search results [[8d5e119](https://github.com/baptisteArno/node-youtube-music/commit/8d5e119c37e057e9c1121a5083b6af6ad951289b)]
+-  Merge pull request [#21](https://github.com/baptisteArno/node-youtube-music/issues/21) from eyezahhhh/main [[ea01f7a](https://github.com/baptisteArno/node-youtube-music/commit/ea01f7a251b9d61dc458861df9e8df486babbbeb)]
+
+
 <a name="0.10.2"></a>
 ## 0.10.2 (2023-02-06)
 
