@@ -1,3 +1,5 @@
+import { AlbumType, PageType } from './constants';
+
 const explicitBadgeText = 'MUSIC_EXPLICIT_BADGE';
 
 const parseDuration = (durationLabel) => {
