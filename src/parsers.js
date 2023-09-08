@@ -1,4 +1,4 @@
-import { AlbumType, PageType } from './constants';
+import { AlbumType, PageType } from './models.js';
 
 const explicitBadgeText = 'MUSIC_EXPLICIT_BADGE';
 
