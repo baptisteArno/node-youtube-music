@@ -64,6 +64,7 @@ export const parseMusicItem = (content: {
           runs: {
             text: string;
             navigationEndpoint: {
+              browseEndpoint: { browseId: string };
               watchEndpoint: { videoId: string };
               browseId: string;
             };
@@ -111,11 +112,14 @@ export const parseMusicItem = (content: {
   let album;
   try {
     const { length } =
-      content.musicResponsiveListItemRenderer.flexColumns[1]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs;
-    album =
-      content.musicResponsiveListItemRenderer.flexColumns[1]
-        .musicResponsiveListItemFlexColumnRenderer.text.runs[length - 3].text;
+    content.musicResponsiveListItemRenderer.flexColumns[1]
+    .musicResponsiveListItemFlexColumnRenderer.text.runs;
+    album = {
+      title: content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[length - 3].text,
+      albumId: content.musicResponsiveListItemRenderer.flexColumns[1]
+        .musicResponsiveListItemFlexColumnRenderer.text.runs[length - 3].navigationEndpoint.browseEndpoint.browseId
+    }
   } catch (err) {}
 
   let thumbnailUrl;
