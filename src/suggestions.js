@@ -1,35 +1,16 @@
 import got from 'got';
-import { MusicVideo } from './models.js';
 import { parseSuggestionItem } from './parsers.js';
 import context from './context.js';
 
-export const parseGetSuggestionsBody = (body: {
-  contents: {
-    singleColumnMusicWatchNextResultsRenderer: {
-      tabbedRenderer: {
-        watchNextTabbedResultsRenderer: {
-          tabs: {
-            tabRenderer: {
-              content: {
-                musicQueueRenderer: {
-                  content: { playlistPanelRenderer: { contents: [] } };
-                };
-              };
-            };
-          }[];
-        };
-      };
-    };
-  };
-}): MusicVideo[] => {
+export const parseGetSuggestionsBody = (body) => {
   const { contents } =
     body.contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer
       .watchNextTabbedResultsRenderer.tabs[0].tabRenderer.content
       .musicQueueRenderer.content.playlistPanelRenderer;
 
-  const results: MusicVideo[] = [];
+  const results = [];
 
-  contents.forEach((content: any) => {
+  contents.forEach((content) => {
     try {
       const video = parseSuggestionItem(content);
       if (video) {
@@ -42,7 +23,7 @@ export const parseGetSuggestionsBody = (body: {
   return results;
 };
 
-export async function getSuggestions(videoId: string): Promise<MusicVideo[]> {
+export async function getSuggestions(videoId) {
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/next',
     {

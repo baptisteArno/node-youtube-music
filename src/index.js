@@ -1,5 +1,3 @@
-export * from './models.js';
-
 export { searchMusics } from './searchMusics.js';
 export { searchAlbums } from './searchAlbums.js';
 export { searchPlaylists } from './searchPlaylists.js';

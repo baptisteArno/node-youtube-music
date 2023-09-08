@@ -1,22 +1,27 @@
 import got from 'got';
-import { MusicVideo } from './models.js';
-import { parseMusicItem } from './parsers.js';
 import context from './context.js';
+import { parsePlaylistItem } from './parsers.js';
 
-export const parseSearchMusicsBody = (body: {
-  contents: any;
-}): MusicVideo[] => {
-  const { contents } =
+export const parseSearchPlaylistsBody = (
+  body,
+  onlyOfficialPlaylists
+) => {
+  const contents =
     body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
-      .musicShelfRenderer;
+      .musicShelfRenderer?.contents;
 
-  const results: MusicVideo[] = [];
+  if (!contents) {
+    return [];
+  }
 
-  contents.forEach((content: any) => {
+
+  const results = [];
+
+  contents.forEach((content) => {
     try {
-      const song = parseMusicItem(content);
-      if (song) {
-        results.push(song);
+      const playlist = parsePlaylistItem(content, onlyOfficialPlaylists);
+      if (playlist) {
+        results.push(playlist);
       }
     } catch (e) {
       console.error(e);
@@ -25,13 +30,16 @@ export const parseSearchMusicsBody = (body: {
   return results;
 };
 
-export async function searchMusics(query: string): Promise<MusicVideo[]> {
+export async function searchPlaylists(
+  query,
+  options
+) {
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
     {
       json: {
         ...context.body,
-        params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D',
+        params: 'EgWKAQIoAWoKEAoQAxAEEAUQCQ%3D%3D',
         query,
       },
       headers: {
@@ -42,8 +50,12 @@ export async function searchMusics(query: string): Promise<MusicVideo[]> {
     }
   );
   try {
-    return parseSearchMusicsBody(JSON.parse(response.body));
-  } catch {
+    return parseSearchPlaylistsBody(
+      JSON.parse(response.body),
+      options?.onlyOfficialPlaylists ?? false
+    );
+  } catch (e) {
+    console.error(e);
     return [];
   }
 }

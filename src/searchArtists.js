@@ -1,15 +1,14 @@
 import got from 'got';
 import context from './context.js';
-import { ArtistPreview } from './models.js';
 import { parseArtistSearchResult } from './parsers.js';
 
-export const parseArtistsSearchBody = (body: any): ArtistPreview[] => {
+export const parseArtistsSearchBody = (body) => {
   const { contents } =
     body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
       .musicShelfRenderer;
-  const results: ArtistPreview[] = [];
+  const results = [];
 
-  contents.forEach((content: any) => {
+  contents.forEach((content) => {
     try {
       const artist = parseArtistSearchResult(content);
       if (artist) {
@@ -23,12 +22,9 @@ export const parseArtistsSearchBody = (body: any): ArtistPreview[] => {
 };
 
 export async function searchArtists(
-  query: string,
-  options?: {
-    lang?: string;
-    country?: string;
-  }
-): Promise<ArtistPreview[]> {
+  query,
+  options
+) {
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
     {

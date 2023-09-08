@@ -1,35 +1,17 @@
 import got from 'got';
 import context from './context.js';
-import { MusicVideo } from './models.js';
 import { parseMusicInPlaylistItem } from './parsers.js';
 
-export const parseListMusicsFromPlaylistBody = (body: {
-  contents: {
-    singleColumnBrowseResultsRenderer: {
-      tabs: {
-        tabRenderer: {
-          content: {
-            sectionListRenderer: {
-              contents: {
-                musicPlaylistShelfRenderer?: { contents: [] };
-                musicCarouselShelfRenderer: { contents: [] };
-              }[];
-            };
-          };
-        };
-      }[];
-    };
-  };
-}): MusicVideo[] => {
+export const parseListMusicsFromPlaylistBody = (body) => {
   const content =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
       .sectionListRenderer.contents[0];
   const { contents } =
     content.musicPlaylistShelfRenderer ?? content.musicCarouselShelfRenderer;
 
-  const results: MusicVideo[] = [];
+  const results = [];
 
-  contents.forEach((content: any) => {
+  contents.forEach((content) => {
     try {
       const song = parseMusicInPlaylistItem(content);
       if (song) {
@@ -43,8 +25,8 @@ export const parseListMusicsFromPlaylistBody = (body: {
 };
 
 export async function listMusicsFromPlaylist(
-  playlistId: string
-): Promise<MusicVideo[]> {
+  playlistId
+) {
   let browseId;
 
   if (!playlistId.startsWith('VL')) {
