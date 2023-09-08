@@ -3,6 +3,7 @@
   "description": "Unofficial YouTube Music API for Node.js",
   "version": "0.0.1",
   "type": "module",
+  "main": "src/index.js",
   "node": " >=14.13.1 || >=16.0.0",
   "repository": "https://github.com/pedrazadixon/node-youtube-music",
   "publishConfig": {
