@@ -8,3 +8,5 @@ export { listMusicsFromPlaylist } from './listMusicsFromPlaylist.js';
 
 export { searchArtists } from './searchArtists.js';
 export { getArtist } from './getArtist.js';
+
+export { getRankingsFromCountry } from './getRankingsFromCountry.js';
