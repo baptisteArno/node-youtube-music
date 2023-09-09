@@ -2,7 +2,7 @@ import got from 'got';
 import context from './context.js';
 import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers.js';
 
-export const parseListMusicsFromAlbumBody = (body, albumId) => {
+export const parseGetAlbumBody = (body, albumId) => {
   const { contents } =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
       .sectionListRenderer.contents[0].musicShelfRenderer;
@@ -34,7 +34,7 @@ export const parseListMusicsFromAlbumBody = (body, albumId) => {
   };
 };
 
-export async function listMusicsFromAlbum(
+export async function getAlbum(
   albumId
 ) {
   const response = await got.post(
@@ -52,7 +52,7 @@ export async function listMusicsFromAlbum(
     }
   );
   try {
-    return parseListMusicsFromAlbumBody(JSON.parse(response.body), albumId);
+    return parseGetAlbumBody(JSON.parse(response.body), albumId);
   } catch (e) {
     console.error(e);
     return [];

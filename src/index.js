@@ -3,7 +3,7 @@ export { searchAlbums } from './searchAlbums.js';
 export { searchPlaylists } from './searchPlaylists.js';
 export { getSuggestions } from './suggestions.js';
 
-export { listMusicsFromAlbum } from './listMusicsFromAlbum.js';
+export { getAlbum } from './getAlbum.js';
 export { listMusicsFromPlaylist } from './listMusicsFromPlaylist.js';
 
 export { searchArtists } from './searchArtists.js';

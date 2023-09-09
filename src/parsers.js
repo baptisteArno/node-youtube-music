@@ -33,7 +33,7 @@ export const listArtists = (data) => {
     ) {
       artists.push({
         name: item.text,
-        id: item.navigationEndpoint.browseEndpoint.browseId,
+        artistId: item.navigationEndpoint.browseEndpoint.browseId,
       });
     }
   });
@@ -49,9 +49,9 @@ export const listArtists = (data) => {
 };
 
 export const parseMusicItem = (content) => {
-  let id;
+  let trackId;
   try {
-    id =
+    trackId =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -114,7 +114,7 @@ export const parseMusicItem = (content) => {
     isExplicit = false;
   }
   return {
-    id,
+    trackId,
     title,
     artists,
     album,
@@ -125,9 +125,9 @@ export const parseMusicItem = (content) => {
 };
 
 export const parseSuggestionItem = (content) => {
-  let id;
+  let trackId;
   try {
-    id =
+    trackId =
       content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
         .videoId;
   } catch (err) { }
@@ -174,7 +174,7 @@ export const parseSuggestionItem = (content) => {
     };
   } catch (err) { }
   return {
-    id,
+    trackId,
     title,
     artists,
     isExplicit,
@@ -236,9 +236,9 @@ export const parsePlaylistItem = (
 };
 
 export const parseMusicInPlaylistItem = (content) => {
-  let id;
+  let trackId;
   try {
-    id =
+    trackId =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -295,7 +295,7 @@ export const parseMusicInPlaylistItem = (content) => {
     isExplicit = false;
   }
   return {
-    id,
+    trackId,
     title,
     artists,
     album,
@@ -423,9 +423,9 @@ export const parseAlbumHeader = (content) => {
 };
 
 export const parseMusicInAlbumItem = (content) => {
-  let id;
+  let albumId;
   try {
-    id =
+    albumId =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -480,7 +480,7 @@ export const parseMusicInAlbumItem = (content) => {
   }
 
   return {
-    id: id,
+    albumId,
     artists,
     title,
     duration,
@@ -619,9 +619,9 @@ export const parseArtistData = (
     console.error("Couldn't get artist thumbnails", e);
   }
 
-  let songsPlaylistId;
+  let tracksPlaylistId;
   try {
-    songsPlaylistId =
+    tracksPlaylistId =
       body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer
         .content.sectionListRenderer.contents[0].musicShelfRenderer.title
         .runs[0].navigationEndpoint.browseEndpoint.browseId;
@@ -692,7 +692,7 @@ export const parseArtistData = (
     albums,
     singles,
     thumbnails,
-    songsPlaylistId,
+    tracksPlaylistId,
     suggestedArtists,
     subscribers,
   };

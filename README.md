@@ -35,7 +35,7 @@ import {
   searchAlbums,
   searchPlaylists,
   getSuggestions,
-  listMusicsFromAlbum,
+  getAlbum,
   listMusicsFromPlaylist,
   searchArtists,
   getArtist,
@@ -49,7 +49,7 @@ const playlists = await searchPlaylists("Jazz");
 
 const suggestions = await getSuggestions(musics[0].youtubeId);
 
-const albumSongs = await listMusicsFromAlbum(albums[0].albumId);
+const albumSongs = await getAlbum(albums[0].albumId);
 
 const playlistSongs = await listMusicsFromPlaylist(playlists[0].playlistId);
 

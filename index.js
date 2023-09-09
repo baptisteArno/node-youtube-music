@@ -1,5 +1,5 @@
-import { listMusicsFromAlbum } from './src/index.js';
+import { getAlbum } from './src/index.js';
 
-const album = await listMusicsFromAlbum('MPREb_C8JQqwWRNQs');
+const album = await getAlbum('MPREb_C8JQqwWRNQs');
 
 console.log(album)
