@@ -1,4 +1,5 @@
 import { explicitBadgeText } from '../constants.js';
+import { parseDuration } from './utils.js';
 
 export default function parseMusicInAlbumItem(content) {
     let trackId;
