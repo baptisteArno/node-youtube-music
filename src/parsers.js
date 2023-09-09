@@ -396,7 +396,7 @@ export const parseAlbumHeader = (content) => {
   try {
     artist = {
       name: content.musicDetailHeaderRenderer.subtitle.runs[2].text,
-      id: content.musicDetailHeaderRenderer.subtitle.runs[2].navigationEndpoint.browseEndpoint.browseId
+      artistId: content.musicDetailHeaderRenderer.subtitle.runs[2].navigationEndpoint.browseEndpoint.browseId
     };
   } catch (err) {
     console.error("Couldn't parse artist from album header", err);
@@ -756,7 +756,7 @@ export const parseRankingData = (body) => {
 
   popularVideosContent?.forEach((item) => {
     let tmpVideo = {
-      id: item.musicTwoRowItemRenderer.navigationEndpoint.watchEndpoint.videoId,
+      trackId: item.musicTwoRowItemRenderer.navigationEndpoint.watchEndpoint.videoId,
       title: item.musicTwoRowItemRenderer.title.runs[0].text,
       artists: listArtists(item.musicTwoRowItemRenderer.subtitle.runs),
       thumbnailUrl: item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url,
@@ -779,7 +779,7 @@ export const parseRankingData = (body) => {
 
   trendingContent?.forEach((item) => {
     let tmpTrending = {
-      id: item.musicResponsiveListItemRenderer.playlistItemData.videoId,
+      trackId: item.musicResponsiveListItemRenderer.playlistItemData.videoId,
       title: item.musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
       artists: listArtists(item.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs),
       thumbnailUrl: item.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url,
