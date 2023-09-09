@@ -1,3 +1,6 @@
+import { listArtists, parseDuration } from './utils.js';
+
+export default function parseSuggestionItem (content) {
 import { parseDuration, listArtists } from './utils.js';
 
 export default function parseSuggestionItem(content) {
