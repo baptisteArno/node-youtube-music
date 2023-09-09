@@ -1,3 +1,5 @@
+import { listArtists, parseDuration } from './utils.js';
+
 export default function parseSuggestionItem (content) {
     let trackId;
     try {

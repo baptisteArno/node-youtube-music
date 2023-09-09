@@ -1,3 +1,5 @@
+import { listArtists } from './utils.js';
+
 export default function parseRankingData(body) {
 
     const { contents } = body;
