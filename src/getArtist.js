@@ -1,6 +1,7 @@
 import got from 'got';
 import context from './context.js';
-import { parseArtistData } from './parsers.js';
+import parseArtistData from './parsers/parseArtistData.js';
+
 
 export async function getArtist(
   artistId,

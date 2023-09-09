@@ -1,6 +1,6 @@
 import got from 'got';
 import context from './context.js';
-import { parseAlbumItem } from './parsers.js';
+import parseAlbumItem from './parsers/parseAlbumItem.js';
 
 export const parseSearchAlbumsBody = (body) => {
   const { contents } =

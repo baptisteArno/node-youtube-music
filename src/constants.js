@@ -9,3 +9,5 @@ export const PageType = {
   album: 'MUSIC_PAGE_TYPE_ALBUM',
   playlist: 'MUSIC_PAGE_TYPE_PLAYLIST',
 }
+
+export const explicitBadgeText = 'MUSIC_EXPLICIT_BADGE';

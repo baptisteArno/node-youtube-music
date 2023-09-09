@@ -36,7 +36,7 @@ import {
   searchPlaylists,
   getSuggestions,
   getAlbum,
-  listMusicsFromPlaylist,
+  getPlaylistTracks,
   searchArtists,
   getArtist,
 } from "node-youtube-music";
@@ -51,7 +51,7 @@ const suggestions = await getSuggestions(musics[0].youtubeId);
 
 const albumSongs = await getAlbum(albums[0].albumId);
 
-const playlistSongs = await listMusicsFromPlaylist(playlists[0].playlistId);
+const playlistSongs = await getPlaylistTracks(playlists[0].playlistId);
 
 const artists = await searchArtists("Daft Punk");
 

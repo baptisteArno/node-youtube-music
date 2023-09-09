@@ -1,6 +1,7 @@
 import got from 'got';
 import context from './context.js';
-import { parseRankingData } from './parsers.js';
+import parseRankingData from './parsers/parseRankingData.js';
+
 
 export async function getRankingsFromCountry(
   countryIdIso = 'ZZ',

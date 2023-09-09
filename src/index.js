@@ -1,12 +1,14 @@
-export { searchMusics } from './searchMusics.js';
-export { searchAlbums } from './searchAlbums.js';
-export { searchPlaylists } from './searchPlaylists.js';
-export { getSuggestions } from './suggestions.js';
+
+export { searchTracks } from './searchTracks.js'; // continuations
+export { searchAlbums } from './searchAlbums.js'; // continuations
+export { searchPlaylists } from './searchPlaylists.js'; // continuations
+export { searchArtists } from './searchArtists.js'; // continuations
 
 export { getAlbum } from './getAlbum.js';
-export { listMusicsFromPlaylist } from './listMusicsFromPlaylist.js';
-
-export { searchArtists } from './searchArtists.js';
 export { getArtist } from './getArtist.js';
+// getArtistAlbums
+export { getPlaylistTracks } from './getPlaylistTracks.js'; // continuations
+
 
 export { getRankingsFromCountry } from './getRankingsFromCountry.js';
+export { getSuggestions } from './suggestions.js';

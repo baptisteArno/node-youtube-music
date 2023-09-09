@@ -1,8 +1,9 @@
 import got from 'got';
 import context from './context.js';
-import { parseMusicInPlaylistItem } from './parsers.js';
+import parseMusicInPlaylistItem from './parsers/parseMusicInPlaylistItem.js';
 
-export const parseListMusicsFromPlaylistBody = (body) => {
+
+export const parseGetPlaylistTracksBody = (body) => {
   const content =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
       .sectionListRenderer.contents[0];
@@ -24,7 +25,7 @@ export const parseListMusicsFromPlaylistBody = (body) => {
   return results;
 };
 
-export async function listMusicsFromPlaylist(
+export async function getPlaylistTracks(
   playlistId
 ) {
   let browseId;
@@ -48,9 +49,9 @@ export async function listMusicsFromPlaylist(
         },
       }
     );
-    return parseListMusicsFromPlaylistBody(JSON.parse(response.body));
+    return parseGetPlaylistTracksBody(JSON.parse(response.body));
   } catch (error) {
-    console.error(`Error in listMusicsFromPlaylist: ${error}`);
+    console.error(`Error in getPlaylistTracks: ${error}`);
     return [];
   }
 }

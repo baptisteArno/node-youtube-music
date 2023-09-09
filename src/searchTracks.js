@@ -1,6 +1,6 @@
 import got from 'got';
-import { parseMusicItem } from './parsers.js';
 import context from './context.js';
+import parseMusicItem from './parsers/parseMusicItem.js';
 
 export const parseSearchMusicsBody = (body) => {
   const { contents } =
@@ -22,7 +22,7 @@ export const parseSearchMusicsBody = (body) => {
   return results;
 };
 
-export async function searchMusics(query) {
+export async function searchTracks(query) {
   const response = await got.post(
     'https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30',
     {

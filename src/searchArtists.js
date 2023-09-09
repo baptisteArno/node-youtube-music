@@ -1,6 +1,6 @@
 import got from 'got';
 import context from './context.js';
-import { parseArtistSearchResult } from './parsers.js';
+import parseArtistSearchResult from './parsers/parseArtistSearchResult.js';
 
 export const parseArtistsSearchBody = (body) => {
   const { contents } =

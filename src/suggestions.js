@@ -1,6 +1,7 @@
 import got from 'got';
-import { parseSuggestionItem } from './parsers.js';
 import context from './context.js';
+import parseSuggestionItem from './parsers/parseSuggestionItem.js';
+
 
 export const parseGetSuggestionsBody = (body) => {
   const { contents } =

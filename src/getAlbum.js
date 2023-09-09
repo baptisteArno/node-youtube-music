@@ -1,6 +1,7 @@
 import got from 'got';
 import context from './context.js';
-import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers.js';
+import parseAlbumHeader from './parsers/parseAlbumHeader.js';
+import parseMusicInAlbumItem from './parsers/parseMusicInAlbumItem.js';
 
 export const parseGetAlbumBody = (body, albumId) => {
   const { contents } =
@@ -14,7 +15,7 @@ export const parseGetAlbumBody = (body, albumId) => {
       const song = parseMusicInAlbumItem(element);
       if (song) {
         song.album = {
-          id: albumId,
+          albumId,
           title: album,
         };
         if (song.artists?.length === 0) song.artists = [{ name: artist }];
@@ -26,7 +27,7 @@ export const parseGetAlbumBody = (body, albumId) => {
     }
   });
   return {
-    id: albumId,
+    albumId,
     title: album,
     artist,
     thumbnailUrl,

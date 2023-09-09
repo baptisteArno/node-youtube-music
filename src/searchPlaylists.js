@@ -1,6 +1,6 @@
 import got from 'got';
 import context from './context.js';
-import { parsePlaylistItem } from './parsers.js';
+import parsePlaylistItem from './parsers/parsePlaylistItem.js';
 
 export const parseSearchPlaylistsBody = (
   body,
