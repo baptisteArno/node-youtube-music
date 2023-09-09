@@ -26,7 +26,9 @@ export async function getRankingsFromCountry(
     }
   );
   try {
-    return parseRankingData(JSON.parse(response.body));
+    const responde =  parseRankingData(JSON.parse(response.body));
+    responde.isoCode = countryIdIso;
+    return responde;
   } catch (e) {
     console.error(e);
     return {};
