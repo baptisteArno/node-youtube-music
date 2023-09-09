@@ -1,8 +1,8 @@
 import got from 'got';
 import context from './context.js';
-import parseMusicItem from './parsers/parseMusicItem.js';
+import parseTrackItem from './parsers/parseTrackItem.js';
 
-export const parseSearchMusicsBody = (body) => {
+export const parseSearchTracksBody = (body) => {
   const { contents } =
     body.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents.pop()
       .musicShelfRenderer;
@@ -11,15 +11,17 @@ export const parseSearchMusicsBody = (body) => {
 
   contents.forEach((content) => {
     try {
-      const song = parseMusicItem(content);
-      if (song) {
-        results.push(song);
+      const track = parseTrackItem(content);
+      if (track) {
+        results.push(track);
       }
     } catch (e) {
       console.error(e);
     }
   });
-  return results;
+  return {
+    tracks: results
+  };
 };
 
 export async function searchTracks(query) {
@@ -39,7 +41,7 @@ export async function searchTracks(query) {
     }
   );
   try {
-    return parseSearchMusicsBody(JSON.parse(response.body));
+    return parseSearchTracksBody(JSON.parse(response.body));
   } catch {
     return [];
   }
