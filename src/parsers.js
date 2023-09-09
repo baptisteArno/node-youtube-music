@@ -49,9 +49,9 @@ export const listArtists = (data) => {
 };
 
 export const parseMusicItem = (content) => {
-  let youtubeId;
+  let id;
   try {
-    youtubeId =
+    id =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -114,7 +114,7 @@ export const parseMusicItem = (content) => {
     isExplicit = false;
   }
   return {
-    youtubeId,
+    id,
     title,
     artists,
     album,
@@ -125,9 +125,9 @@ export const parseMusicItem = (content) => {
 };
 
 export const parseSuggestionItem = (content) => {
-  let youtubeId;
+  let id;
   try {
-    youtubeId =
+    id =
       content.playlistPanelVideoRenderer.navigationEndpoint.watchEndpoint
         .videoId;
   } catch (err) { }
@@ -174,7 +174,7 @@ export const parseSuggestionItem = (content) => {
     };
   } catch (err) { }
   return {
-    youtubeId,
+    id,
     title,
     artists,
     isExplicit,
@@ -236,9 +236,9 @@ export const parsePlaylistItem = (
 };
 
 export const parseMusicInPlaylistItem = (content) => {
-  let youtubeId;
+  let id;
   try {
-    youtubeId =
+    id =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -295,7 +295,7 @@ export const parseMusicInPlaylistItem = (content) => {
     isExplicit = false;
   }
   return {
-    youtubeId,
+    id,
     title,
     artists,
     album,
@@ -423,9 +423,9 @@ export const parseAlbumHeader = (content) => {
 };
 
 export const parseMusicInAlbumItem = (content) => {
-  let youtubeId;
+  let id;
   try {
-    youtubeId =
+    id =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -480,7 +480,7 @@ export const parseMusicInAlbumItem = (content) => {
   }
 
   return {
-    id: youtubeId,
+    id: id,
     artists,
     title,
     duration,
@@ -756,7 +756,7 @@ export const parseRankingData = (body) => {
 
   popularVideosContent?.forEach((item) => {
     let tmpVideo = {
-      youtubeId: item.musicTwoRowItemRenderer.navigationEndpoint.watchEndpoint.videoId,
+      id: item.musicTwoRowItemRenderer.navigationEndpoint.watchEndpoint.videoId,
       title: item.musicTwoRowItemRenderer.title.runs[0].text,
       artists: listArtists(item.musicTwoRowItemRenderer.subtitle.runs),
       thumbnailUrl: item.musicTwoRowItemRenderer.thumbnailRenderer.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url,
@@ -779,7 +779,7 @@ export const parseRankingData = (body) => {
 
   trendingContent?.forEach((item) => {
     let tmpTrending = {
-      youtubeId: item.musicResponsiveListItemRenderer.playlistItemData.videoId,
+      id: item.musicResponsiveListItemRenderer.playlistItemData.videoId,
       title: item.musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
       artists: listArtists(item.musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs),
       thumbnailUrl: item.musicResponsiveListItemRenderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.pop()?.url,
