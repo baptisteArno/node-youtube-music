@@ -423,9 +423,9 @@ export const parseAlbumHeader = (content) => {
 };
 
 export const parseMusicInAlbumItem = (content) => {
-  let albumId;
+  let trackId;
   try {
-    albumId =
+    trackId =
       content.musicResponsiveListItemRenderer.flexColumns[0]
         .musicResponsiveListItemFlexColumnRenderer.text.runs[0]
         .navigationEndpoint.watchEndpoint.videoId;
@@ -480,9 +480,9 @@ export const parseMusicInAlbumItem = (content) => {
   }
 
   return {
-    albumId,
-    artists,
+    trackId,
     title,
+    artists,
     duration,
     isExplicit,
   };
