@@ -2,7 +2,7 @@ import got from 'got';
 import context from './context.js';
 import { parseAlbumHeader, parseMusicInAlbumItem } from './parsers.js';
 
-export const parseListMusicsFromAlbumBody = (body) => {
+export const parseListMusicsFromAlbumBody = (body, albumId) => {
   const { contents } =
     body.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
       .sectionListRenderer.contents[0].musicShelfRenderer;
@@ -13,7 +13,10 @@ export const parseListMusicsFromAlbumBody = (body) => {
     try {
       const song = parseMusicInAlbumItem(element);
       if (song) {
-        song.album = album;
+        song.album = {
+          id: albumId,
+          title: album,
+        };
         if (song.artists?.length === 0) song.artists = [{ name: artist }];
         song.thumbnailUrl = thumbnailUrl;
         songs.push(song);
@@ -22,7 +25,13 @@ export const parseListMusicsFromAlbumBody = (body) => {
       console.error(err);
     }
   });
-  return songs;
+  return {
+    id: albumId,
+    title: album,
+    artist,
+    thumbnailUrl,
+    tracks: songs,
+  };
 };
 
 export async function listMusicsFromAlbum(
@@ -43,7 +52,7 @@ export async function listMusicsFromAlbum(
     }
   );
   try {
-    return parseListMusicsFromAlbumBody(JSON.parse(response.body));
+    return parseListMusicsFromAlbumBody(JSON.parse(response.body), albumId);
   } catch (e) {
     console.error(e);
     return [];

@@ -394,7 +394,10 @@ export const parseAlbumItem = (content) => {
 export const parseAlbumHeader = (content) => {
   let artist;
   try {
-    artist = content.musicDetailHeaderRenderer.subtitle.runs[2].text;
+    artist = {
+      name: content.musicDetailHeaderRenderer.subtitle.runs[2].text,
+      id: content.musicDetailHeaderRenderer.subtitle.runs[2].navigationEndpoint.browseEndpoint.browseId
+    };
   } catch (err) {
     console.error("Couldn't parse artist from album header", err);
   }
@@ -477,7 +480,7 @@ export const parseMusicInAlbumItem = (content) => {
   }
 
   return {
-    youtubeId,
+    id: youtubeId,
     artists,
     title,
     duration,
