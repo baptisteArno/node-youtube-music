@@ -1,7 +1,5 @@
 /node_modules
-
 dist
-
 response-example*.json
-
 .DS_Store
+index.js
